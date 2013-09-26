@@ -1,41 +1,50 @@
 class ServerController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
-  include ServerHelper
   include OpenID::Server
   layout nil
 
   def index
-    begin
-      oidreq = server.decode_request(params)
-    rescue ProtocolError => e
-      # invalid openid request, so just display a page with an error message
-      render :text => e.to_s, :status => 500
-      return
-    end
+    oidreq = session[:last_oidreq]
+    session[:last_oidreq] = nil
 
-    # no openid.mode was given
     unless oidreq
-      render :text => "This is an OpenID server endpoint."
-      return
+      begin
+        oidreq = server.decode_request(params)
+
+        # no openid.mode was given
+        unless oidreq
+          render :text => "This is an OpenID server endpoint."
+          return
+        end
+      rescue ProtocolError => e
+        # invalid openid request, so just display a page with an error message
+        render :text => e.to_s, :status => 500
+        return
+      end
     end
 
     oidresp = nil
 
     if oidreq.kind_of?(CheckIDRequest)
-
       identity = oidreq.identity
 
+      # The user has to choose an id in guisso
       if oidreq.id_select
+
+        # The user wants to validate an id but no id is provided: something is wrong
         if oidreq.immediate
           oidresp = oidreq.answer(false)
-        elsif session[:username].nil?
-          # The user hasn't logged in.
-          show_decision_page(oidreq)
+          self.render_response(oidresp)
           return
-        else
-          # Else, set the identity to the one the user is using.
+        end
+
+        # If we have a guisso user in session
+        if current_user
           identity = url_for_user
+        else
+          show_devise_login(oidreq)
+          return
         end
       end
 
@@ -65,6 +74,11 @@ class ServerController < ApplicationController
     self.render_response(oidresp)
   end
 
+  def show_devise_login(oidreq)
+    session[:last_oidreq] = oidreq
+    redirect_to new_user_session_path
+  end
+
   def show_decision_page(oidreq, message="Do you trust this site with your identity?")
     session[:last_oidreq] = oidreq
     @oidreq = oidreq
@@ -73,7 +87,7 @@ class ServerController < ApplicationController
       flash[:notice] = message
     end
 
-    render :template => 'server/decide', :layout => 'server'
+    render :template => 'server/decide'
   end
 
   def user_page
@@ -130,22 +144,7 @@ EOS
       redirect_to oidreq.cancel_url
       return
     else
-      id_to_send = params[:id_to_send]
-
-      identity = oidreq.identity
-      if oidreq.id_select
-        if id_to_send and id_to_send != ""
-          session[:username] = id_to_send
-          session[:approvals] = []
-          identity = url_for_user
-        else
-          msg = "You must enter a username to in order to send " +
-            "an identifier to the Relying Party."
-          show_decision_page(oidreq, msg)
-          return
-        end
-      end
-
+      identity = url_for_user
       if session[:approvals]
         session[:approvals] << oidreq.trust_root
       else
@@ -170,13 +169,17 @@ EOS
     return @server
   end
 
+  def url_for_user
+    url_for controller: 'user', action: current_user.email
+  end
+
   def approved(trust_root)
     return false if session[:approvals].nil?
     return session[:approvals].member?(trust_root)
   end
 
   def is_authorized(identity_url, trust_root)
-    return (session[:username] and (identity_url == url_for_user) and self.approved(trust_root))
+    return (current_user and (identity_url == url_for_user) and self.approved(trust_root))
   end
 
   def render_xrds(types)
@@ -213,10 +216,9 @@ EOS
     # and the user should be asked for permission to release
     # it.
     sreg_data = {
-      'nickname' => session[:username],
-      'fullname' => 'Mayor McCheese',
-      'email' => 'mayor@example.com'
+      'email' => current_user.email,
     }
+    sreg_data['name'] = current_user.name if current_user.name.present?
 
     sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)
     oidresp.add_extension(sregresp)
@@ -239,14 +241,11 @@ EOS
     case web_response.code
     when HTTP_OK
       render :text => web_response.body, :status => 200
-
     when HTTP_REDIRECT
+      puts web_response.headers['location']
       redirect_to web_response.headers['location']
-
     else
       render :text => web_response.body, :status => 400
     end
   end
-
-
 end

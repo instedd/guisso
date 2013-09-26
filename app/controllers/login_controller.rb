@@ -2,9 +2,6 @@
 # little server.  Users have no password.  This is just an example.
 
 class LoginController < ApplicationController
-
-  layout 'server'
-
   def base_url
     url_for(:controller => 'login', :action => nil, :only_path => false)
   end

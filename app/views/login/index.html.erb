@@ -1,10 +1,12 @@
-
+<% if current_user %>
+  <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+<% end %>
 
 <% if session[:username].nil? %>
 
 <div id="login-form">
   <form method="get" action="<%= url_for :controller => 'login', :action => 'submit' %>">
-Type a username: 
+Type a username:
   <input type="text" name="username" />
   <input type="submit" value="Log In" />
   </form>

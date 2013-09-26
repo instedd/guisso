@@ -13,7 +13,12 @@ gem 'ruby-openid'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-openid'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 group :doc do
   gem 'sdoc', require: false
+end
+
+group :development, :test do
+  gem 'pry-debugger'
 end

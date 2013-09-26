@@ -4,13 +4,12 @@ Guisso::Application.routes.draw do
   get 'login/submit' => 'login#submit'
 
   match 'server/xrds', :controller => 'server', :action => 'idp_xrds', via: [:get, :post]
-  match 'user/:username', :controller => 'server', :action => 'user_page', via: [:get, :post]
+  match 'user/:username', :controller => 'server', :action => 'user_page', via: [:get, :post], username: /[^\/]+/
   match 'user/:username/xrds', :controller => 'server', :action => 'user_xrds', via: [:get, :post]
 
   match ':controller(/:action(/:id))(.:format)', via: [:get, :post] # TODO remove!
 
-  # root to: 'home#index'
-  root to: 'login#index'
+  root to: 'home#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
