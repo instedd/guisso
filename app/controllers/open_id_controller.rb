@@ -1,10 +1,16 @@
-class ServerController < ApplicationController
+class OpenIdController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   include OpenID::Server
   layout nil
 
   def index
+    response.headers['X-XRDS-Location'] = url_for(:action => :idp_xrds,
+                                                  :only_path => false)
+    head :ok
+  end
+
+  def login
     oidreq = session[:last_oidreq]
     session[:last_oidreq] = nil
 
@@ -59,7 +65,7 @@ class ServerController < ApplicationController
         add_pape(oidreq, oidresp)
 
       elsif oidreq.immediate
-        server_url = url_for :action => 'index'
+        server_url = url_for :action => :login
         oidresp = oidreq.answer(false, server_url)
 
       else
@@ -72,22 +78,6 @@ class ServerController < ApplicationController
     end
 
     self.render_response(oidresp)
-  end
-
-  def show_devise_login(oidreq)
-    session[:last_oidreq] = oidreq
-    redirect_to new_user_session_path
-  end
-
-  def show_decision_page(oidreq, message="Do you trust this site with your identity?")
-    session[:last_oidreq] = oidreq
-    @oidreq = oidreq
-
-    if message
-      flash[:notice] = message
-    end
-
-    render :template => 'server/decide'
   end
 
   def user_page
@@ -103,12 +93,12 @@ class ServerController < ApplicationController
     end
 
     # content negotiation failed, so just render the user page
-    xrds_url = url_for(:controller=>'user',:action=>params[:username])+'/xrds'
+    xrds_url = url_for action: :user_xrds, email: params[:email]
     identity_page = <<EOS
 <html><head>
 <meta http-equiv="X-XRDS-Location" content="#{xrds_url}" />
-<link rel="openid.server" href="#{url_for :action => 'index'}" />
-</head><body><p>OpenID identity page for #{params[:username]}</p>
+<link rel="openid.server" href="#{url_for :action => :login}" />
+</head><body><p>OpenID identity page for #{params[:email]}</p>
 </body></html>
 EOS
 
@@ -155,9 +145,26 @@ EOS
 
   protected
 
+  def show_devise_login(oidreq)
+    session[:last_oidreq] = oidreq
+    redirect_to new_user_session_path
+  end
+
+  def show_decision_page(oidreq, message="Do you trust this site with your identity?")
+    session[:last_oidreq] = oidreq
+    @oidreq = oidreq
+
+    if message
+      flash[:notice] = message
+    end
+
+    render :template => 'open_id/decide'
+  end
+
+
   def server
     if @server.nil?
-      server_url = url_for :action => 'index', :only_path => false
+      server_url = url_for :action => :login, :only_path => false
       dir = Pathname.new(Rails.root).join('db').join('openid-store')
       store = OpenID::Store::Filesystem.new(dir)
       @server = Server.new(store, server_url)
@@ -166,7 +173,7 @@ EOS
   end
 
   def url_for_user
-    url_for controller: 'user', action: current_user.email
+    url_for action: :user_page, email: current_user.email
   end
 
   def approved(trust_root)
@@ -192,7 +199,7 @@ EOS
   <XRD>
     <Service priority="0">
       #{type_str}
-      <URI>#{url_for(:controller => 'server', :only_path => false)}</URI>
+      <URI>#{url_for(action: :login, only_path: false)}</URI>
     </Service>
   </XRD>
 </xrds:XRDS>

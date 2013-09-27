@@ -1,13 +1,13 @@
 Guisso::Application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
 
-  get 'login/submit' => 'login#submit'
 
-  match 'server/xrds', :controller => 'server', :action => 'idp_xrds', via: [:get, :post]
-  match 'user/:username', :controller => 'server', :action => 'user_page', via: [:get, :post], username: /[^\/]+/
-  match 'user/:username/xrds', :controller => 'server', :action => 'user_xrds', via: [:get, :post]
-
-  match ':controller(/:action(/:id))(.:format)', via: [:get, :post] # TODO remove!
+  match 'openid/login'       => 'open_id#login',     via: [:get, :post]
+  post  'openid/decision'    => 'open_id#decision'
+  match 'openid'             => 'open_id#index',     via: [:get, :post]
+  match 'openid/xrds'        => 'open_id#idp_xrds',  via: [:get, :post]
+  match 'openid/:email'      => 'open_id#user_page', via: [:get, :post], email: /[^\/]+/
+  match 'openid/:email/xrds' => 'open_id#user_xrds', via: [:get, :post], email: /[^\/]+/
 
   root to: 'home#index'
 
