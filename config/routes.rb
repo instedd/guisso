@@ -1,5 +1,5 @@
 Guisso::Application.routes.draw do
-  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
+  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', sessions: 'sessions'}
 
 
   match 'openid/login'       => 'open_id#login',     via: [:get, :post]
