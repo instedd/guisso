@@ -145,6 +145,7 @@ EOS
       return
     else
       identity = url_for_user
+      current_user.trusted_roots.new(url: oidreq.trust_root).save!
       if session[:approvals]
         session[:approvals] << oidreq.trust_root
       else
@@ -174,7 +175,17 @@ EOS
   end
 
   def approved(trust_root)
+    if session[:approvals].nil?
+      root = current_user.trusted_roots.find_by_url(trust_root)
+      session[:approvals]= [root.url] if root
+    end
+
     return false if session[:approvals].nil?
+
+    unless session[:approvals].member?(trust_root)
+      root = current_user.trusted_roots.find_by_url(trust_root)
+      session[:approvals] << root.url if root
+    end
     return session[:approvals].member?(trust_root)
   end
 
