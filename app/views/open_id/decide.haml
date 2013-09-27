@@ -6,8 +6,10 @@
 .offset7.span4
   %p #{@oidreq.trust_root} would like to:
   %ul
-    - (@simple_registration_request.required + @simple_registration_request.optional).each do |field|
-      %li View your #{field}
+    / - (@simple_registration_request.required + @simple_registration_request.optional).each do |field|
+    %li View your email address
+    %li View basic information about your account
+  %p #{@oidreq.trust_root} will use this information in accordance with its terms of service and privacy policy.
   %br
   %form{:action => url_for(:controller => 'open_id', :action => 'decision'), :method => "post"}
     %input{:name => "authenticity_token", :type => "hidden", :value => form_authenticity_token}
