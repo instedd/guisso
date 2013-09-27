@@ -145,12 +145,7 @@ EOS
       return
     else
       identity = url_for_user
-      current_user.trusted_roots.new(url: oidreq.trust_root).save!
-      if session[:approvals]
-        session[:approvals] << oidreq.trust_root
-      else
-        session[:approvals] = [oidreq.trust_root]
-      end
+      current_user.trusted_roots.create!(url: oidreq.trust_root)
       oidresp = oidreq.answer(true, nil, identity)
       add_sreg(oidreq, oidresp)
       add_pape(oidreq, oidresp)
@@ -175,18 +170,7 @@ EOS
   end
 
   def approved(trust_root)
-    if session[:approvals].nil?
-      root = current_user.trusted_roots.find_by_url(trust_root)
-      session[:approvals]= [root.url] if root
-    end
-
-    return false if session[:approvals].nil?
-
-    unless session[:approvals].member?(trust_root)
-      root = current_user.trusted_roots.find_by_url(trust_root)
-      session[:approvals] << root.url if root
-    end
-    return session[:approvals].member?(trust_root)
+    current_user.trusted_roots.where(url: trust_root).exists?
   end
 
   def is_authorized(identity_url, trust_root)
