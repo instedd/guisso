@@ -175,7 +175,6 @@ DEPENDENCIES
   mysql2
   omniauth
   omniauth-openid
-  pry
   pry-debugger
   rails (= 4.0.0)
   ruby-openid

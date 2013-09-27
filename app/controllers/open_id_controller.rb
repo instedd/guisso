@@ -150,13 +150,10 @@ EOS
     redirect_to new_user_session_path
   end
 
-  def show_decision_page(oidreq, message="Do you trust this site with your identity?")
+  def show_decision_page(oidreq)
     session[:last_oidreq] = oidreq
     @oidreq = oidreq
-
-    if message
-      flash[:notice] = message
-    end
+    @simple_registration_request = OpenID::SReg::Request.from_openid_request(oidreq)
 
     render :template => 'open_id/decide'
   end
