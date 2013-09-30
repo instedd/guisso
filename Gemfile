@@ -23,4 +23,6 @@ end
 
 group :development, :test do
   gem 'pry-debugger'
+  gem 'capistrano'
+  gem 'rvm-capistrano'
 end
