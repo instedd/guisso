@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 require 'rvm/capistrano'
 
-set :rvm_ruby_string, '2.0.0p247'
+set :rvm_ruby_string, '2.0.0-p247'
 set :rvm_type, :system
 set :application, "guisso"
 set :repository,  "https://bitbucket.org/instedd/guisso"
