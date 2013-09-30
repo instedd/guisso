@@ -15,7 +15,7 @@ gem 'ruby-openid'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-openid'
-gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+gem 'activerecord-session_store', git: 'https://github.com/rails/activerecord-session_store.git'
 
 group :doc do
   gem 'sdoc', require: false
