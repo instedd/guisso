@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Guisso::Application.config.secret_key_base = 'ba8fbdd88e3e285b11117f25d0b8043b2b3ecd6a242db0331d8a09e4aa20c57d1c1af95b651d8046438f22d3804cf799408d04622d221cbd7264a725c7e9986c'
+Guisso::Application.config.secret_key_base = YAML.load_file("#{Rails.root}/config/settings.yml")["secret_token"]
