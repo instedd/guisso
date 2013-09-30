@@ -1,3 +1,4 @@
+Warden::Strategies.add(:extra_passwords_strategy, ExtraPassword::Strategy)
 Warden::Manager.after_set_user do |user, auth, opts|
   auth.cookies[:guisso] = {
     value: user.email,

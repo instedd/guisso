@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :identities, dependent: :destroy
   has_many :trusted_roots, dependent: :destroy
+  has_many :extra_passwords, dependent: :destroy
 
   def name_with_email
     if name.present?
