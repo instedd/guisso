@@ -1,7 +1,6 @@
 Guisso::Application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', sessions: 'sessions'}
 
-
   match 'openid/login'       => 'open_id#login',     via: [:get, :post]
   post  'openid/decision'    => 'open_id#decision'
   match 'openid'             => 'open_id#index',     via: [:get, :post]
@@ -9,5 +8,7 @@ Guisso::Application.routes.draw do
   match 'openid/:email'      => 'open_id#user_page', via: [:get, :post], email: /[^\/]+/
   match 'openid/:email/xrds' => 'open_id#user_xrds', via: [:get, :post], email: /[^\/]+/
 
-  root to: 'home#index'
+  resources :trusted_roots
+
+  root to: 'trusted_roots#index'
 end
