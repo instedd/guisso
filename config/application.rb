@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+require "uri"
 require "openid"
 require "openid/consumer/discovery"
 require 'openid/extensions/sreg'

@@ -174,6 +174,8 @@ EOS
   end
 
   def approved(trust_root)
+    trust_host = URI(trust_root).host
+    return true if Guisso::Settings.whitelisted_hosts.any? { |host| trust_host.end_with? host }
     current_user.trusted_roots.where(url: trust_root).exists?
   end
 
