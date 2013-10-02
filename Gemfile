@@ -16,13 +16,14 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-openid'
 gem 'activerecord-session_store', git: 'https://github.com/rails/activerecord-session_store.git'
+gem 'rack-oauth2'
 
 group :doc do
   gem 'sdoc', require: false
 end
 
 group :development, :test do
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'capistrano'
   gem 'rvm-capistrano'
 end

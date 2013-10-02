@@ -8,6 +8,8 @@ Guisso::Application.routes.draw do
   match 'openid/:email'      => 'open_id#user_page', via: [:get, :post], email: /[^\/]+/
   match 'openid/:email/xrds' => 'open_id#user_xrds', via: [:get, :post], email: /[^\/]+/
 
+  post 'oauth2/token', :to => proc { |env| Oauth2::TokenEndpoint.new.call(env) }
+
   resources :trusted_roots
 
   root to: 'trusted_roots#index'

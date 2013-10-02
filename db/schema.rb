@@ -11,7 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130930154521) do
+ActiveRecord::Schema.define(version: 20131002201134) do
+
+  create_table "access_tokens", force: true do |t|
+    t.integer  "client_id"
+    t.integer  "resource_id"
+    t.string   "token"
+    t.string   "secret"
+    t.string   "algorithm"
+    t.integer  "refresh_token_id"
+    t.datetime "expires_at"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "applications", force: true do |t|
+    t.string   "identifier"
+    t.string   "secret"
+    t.string   "name"
+    t.string   "hostname"
+    t.boolean  "is_client"
+    t.boolean  "is_provider"
+    t.boolean  "trusted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "extra_passwords", force: true do |t|
     t.integer  "user_id"
@@ -49,7 +74,6 @@ ActiveRecord::Schema.define(version: 20130930154521) do
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
