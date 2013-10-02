@@ -6,7 +6,6 @@ class Oauth2::TokenEndpoint
   private
 
   def authenticator
-    binding.pry
     Rack::OAuth2::Server::Token.new do |req, res|
       app = Application.find_by(identifier: req.client_id, secret: req.client_secret) or req.invalid_client!
       case req.grant_type
