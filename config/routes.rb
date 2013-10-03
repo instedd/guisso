@@ -11,6 +11,8 @@ Guisso::Application.routes.draw do
   post 'oauth2/token', to: proc { |env| Oauth2::TokenEndpoint.new.call(env) }
   get 'oauth2/trusted_token' => 'oauth2#trusted_token'
 
+  get 'basic/check' => 'basic#check'
+
   resources :trusted_roots
 
   root to: 'trusted_roots#index'
