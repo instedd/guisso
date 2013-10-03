@@ -9,20 +9,24 @@ class Oauth2::TokenEndpoint
     Rack::OAuth2::Server::Token.new do |req, res|
       app = Application.find_by(identifier: req.client_id, secret: req.client_secret) or req.invalid_client!
       case req.grant_type
-      when :authorization_code
+      when :client_credentials
         unless app.trusted && app.is_client
           req.invalid_grant!
         end
 
-        hostname, email = req.code.split ';'
-
-        resource = Application.find_by(hostname: hostname)
-        unless resource
-          req.invalid_grant!
+        resource = nil
+        user = nil
+        req.scope.each do |scope|
+          key, value = scope.split '=', 2
+          case key
+          when 'app'
+            resource = Application.find_by(hostname: value)
+          when 'user'
+            user = User.find_by(email: value)
+          end
         end
 
-        user = User.find_by(email: email)
-        unless user
+        unless user && resource
           req.invalid_grant!
         end
 

@@ -16,7 +16,7 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-openid'
 gem 'activerecord-session_store', git: 'https://github.com/rails/activerecord-session_store.git'
-gem 'rack-oauth2'
+gem 'rack-oauth2', git: 'https://github.com/manastech/rack-oauth2.git'
 
 group :doc do
   gem 'sdoc', require: false

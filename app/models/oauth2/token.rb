@@ -27,7 +27,7 @@ module Oauth2::Token
   private
 
   def setup
-    self.token = SecureToken.generate
+    self.token = ::Oauth2::SecureToken.generate
     self.expires_at ||= self.default_lifetime.from_now
   end
 end
