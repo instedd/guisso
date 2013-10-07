@@ -3,4 +3,3 @@ devise_secret_key: 6712c57d6f8762ce9d730e4740721efa9b448711ecac9a04afcac277780ba
 devise_email: please-change-me-at-config-settings-yml@example.com
 whitelisted_hosts:
   - .instedd.org
-
