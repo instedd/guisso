@@ -14,6 +14,7 @@ Guisso::Application.routes.draw do
   get 'basic/check' => 'basic#check'
 
   resources :trusted_roots
+  resources :applications
 
   root to: 'trusted_roots#index'
 end

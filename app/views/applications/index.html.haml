@@ -1,0 +1,27 @@
+%h1 Listing applications
+
+%table.table
+  %tr
+    %th Name
+    %th Hostname
+    %th Is client
+    %th Is provider
+    %th Trusted
+    %th
+    %th
+    %th
+
+  - @applications.each do |application|
+    %tr
+      %td= application.name
+      %td= application.hostname
+      %td= application.is_client
+      %td= application.is_provider
+      %td= application.trusted
+      %td= link_to 'Show', application, :class => "btn btn-default"
+      %td= link_to 'Edit', edit_application_path(application), :class => "btn btn-default"
+      %td= link_to 'Destroy', application, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger"
+
+%br
+
+= link_to 'New Application', new_application_path, :class => "btn btn-primary"

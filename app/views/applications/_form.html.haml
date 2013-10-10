@@ -1,0 +1,27 @@
+= form_for @application do |f|
+  - if @application.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@application.errors.count, "error")} prohibited this application from being saved:"
+      %ul
+        - @application.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :hostname
+    = f.text_field :hostname
+  .field
+    = f.check_box :is_client
+    = f.label :is_client, :class => "checkbox inline"
+  .field
+    = f.check_box :is_provider
+    = f.label :is_provider, :class => "checkbox inline"
+  .field
+    = f.check_box :trusted
+    = f.label :trusted, :class => "checkbox inline"
+  %br
+  = f.submit 'Save', :class => "btn btn-primary"
+  = link_to 'Show', @application, :class => "btn btn-default" unless @application.new_record?
+  = link_to 'Back', applications_path, :class => "btn btn-default"

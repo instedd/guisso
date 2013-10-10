@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/Fustrate/cancan.git
+  revision: 3843bbf0cd4b02f14a5fdaeadb787b6f83d8b094
+  specs:
+    cancan (1.6.10)
+
+GIT
   remote: https://github.com/manastech/rack-oauth2.git
   revision: 63f1b7394106ebb45dd5b7ccb88d3cfa82629d5a
   specs:
@@ -17,6 +23,13 @@ GIT
       actionpack (>= 4.0.0.beta, < 5)
       activerecord (>= 4.0.0.beta, < 5)
       railties (>= 4.0.0.beta, < 5)
+
+GIT
+  remote: https://github.com/ssendev/enumerated_attribute.git
+  revision: 3c94b814c184564a20b90c237ddb82f0260885af
+  specs:
+    enumerated_attribute (0.3.0.beta1)
+      meta_programming (>= 0.2.1)
 
 GEM
   remote: https://rubygems.org/
@@ -101,6 +114,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    meta_programming (0.2.2)
     method_source (0.8.2)
     mime-types (1.25)
     minitest (4.7.5)
@@ -193,9 +207,11 @@ PLATFORMS
 DEPENDENCIES
   activerecord-session_store!
   bootstrap-sass (~> 2.3.2.1)
+  cancan!
   capistrano
   coffee-rails (~> 4.0.0)
   devise
+  enumerated_attribute!
   haml
   haml-rails
   jbuilder (~> 1.2)

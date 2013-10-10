@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
   has_many :trusted_roots, dependent: :destroy
   has_many :extra_passwords, dependent: :destroy
 
+  enumerated_attribute :role, %w(user admin) do
+    label :user => 'User'
+    label :admin => 'Administrator'
+  end
+
   def name_with_email
     if name.present?
       "#{name} <#{email}>"
