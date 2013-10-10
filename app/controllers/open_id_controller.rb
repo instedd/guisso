@@ -147,7 +147,11 @@ EOS
 
   def show_devise_login(oidreq)
     session[:last_oidreq] = oidreq
-    redirect_to new_user_session_path
+    if oidreq.message.get_arg("http://instedd.org/guisso", "signup")
+      redirect_to new_user_registration_path
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   def show_decision_page(oidreq)
