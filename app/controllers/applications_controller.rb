@@ -1,6 +1,11 @@
 class ApplicationsController < ApplicationController
   load_and_authorize_resource
 
+  skip_load_resource only: [:create, :update]
+
+  before_filter :create_application, only: :create
+  before_filter :load_application, only: :update
+
   def create
     respond_to do |format|
       if @application.save
@@ -12,10 +17,6 @@ class ApplicationsController < ApplicationController
   end
 
   def update
-    @application = Application.find(params[:id])
-
-    authorize! :update, @application
-
     respond_to do |format|
       if @application.update_attributes(application_params)
         format.html { redirect_to @application, notice: 'Application was successfully updated.' }
@@ -37,5 +38,13 @@ class ApplicationsController < ApplicationController
 
   def application_params
     params.require(:application).permit(:name, :hostname, :is_client, :is_provider, :trusted)
+  end
+
+  def load_application
+    @application = Application.find(params[:id])
+  end
+
+  def create_application
+    @application = Application.new(application_params)
   end
 end

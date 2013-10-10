@@ -17,7 +17,7 @@ gem 'omniauth'
 gem 'omniauth-openid'
 gem 'activerecord-session_store', git: 'https://github.com/rails/activerecord-session_store.git'
 gem 'rack-oauth2', git: 'https://github.com/manastech/rack-oauth2.git'
-gem 'cancan', git: 'https://github.com/Fustrate/cancan.git'
+gem 'cancan'
 gem 'enumerated_attribute', :git => "https://github.com/ssendev/enumerated_attribute.git"
 
 group :doc do
