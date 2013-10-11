@@ -7,5 +7,9 @@ Warden::Manager.after_set_user do |user, auth, opts|
   }
 end
 Warden::Manager.before_logout do |user, auth, opts|
-  auth.cookies.delete(:guisso, domain: "instedd.org")
+  auth.cookies[:guisso] = {
+    value: "logout",
+    expires: 1.year.from_now,
+    domain: "instedd.org"
+  }
 end
