@@ -1,0 +1,14 @@
+= link_to @client.name, "http://#{@client.hostname}"
+is requiring your approval to access your data in
+= link_to @resource.name, "http://#{@resource.hostname}"
+
+%div
+  %br
+  = form_tag create_authorization_path do
+    = hidden_field_tag :client_id, @client.identifier
+    = hidden_field_tag :scope, @scope
+    = hidden_field_tag :response_type, @response_type
+    = hidden_field_tag :redirect_uri, @redirect_uri
+
+    = submit_tag "Approve", name: :approve, class: 'btn btn-success'
+    = submit_tag "Reject", class: 'btn btn-danger'

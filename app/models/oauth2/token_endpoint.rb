@@ -32,6 +32,10 @@ class Oauth2::TokenEndpoint
 
         access_token = AccessToken.create! client_id: app.id, resource_id: resource.id, user_id: user.id
         res.access_token = access_token.to_mac_token
+      when :authorization_code
+        code = AuthorizationCode.valid.find_by_token(req.code)
+        req.invalid_grant! if code.blank? || code.redirect_uri != req.redirect_uri
+        res.access_token = code.create_access_token.to_mac_token#(:with_refresh_token)
       else
         req.unsupported_grant_type!
       end

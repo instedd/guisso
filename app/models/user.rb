@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :trusted_roots, dependent: :destroy
   has_many :extra_passwords, dependent: :destroy
   has_many :applications, dependent: :destroy
+  has_many :authorization_codes, dependent: :destroy
+  has_many :access_tokens, dependent: :destroy
 
   enumerated_attribute :role, %w(user admin) do
     label :user => 'User'

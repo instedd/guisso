@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     if session[:last_oidreq]
       '/openid/login'
     else
-      root_path
+      session[:user_return_to].presence || root_path
     end
   end
 

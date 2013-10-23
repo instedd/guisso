@@ -4,11 +4,8 @@ module Oauth2::Token
       cattr_accessor :default_lifetime
       self.default_lifetime = 1.minute
 
-      belongs_to :account
-      belongs_to :client
-
       before_validation :setup, :on => :create
-      validates :client, :expires_at, :presence => true
+      validates :expires_at, :presence => true
       validates :token, :presence => true, :uniqueness => true
 
       scope :valid, lambda { where('expires_at >= ?', Time.now.utc) }

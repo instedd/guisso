@@ -10,6 +10,8 @@ Guisso::Application.routes.draw do
 
   post 'oauth2/token', to: proc { |env| Oauth2::TokenEndpoint.new.call(env) }
   get 'oauth2/trusted_token' => 'oauth2#trusted_token'
+  get 'oauth2/authorize' => 'oauth2#authorize'
+  post 'oauth2/create_authorization' => 'oauth2#create_authorization', as: :create_authorization
 
   get 'basic/check' => 'basic#check'
 
