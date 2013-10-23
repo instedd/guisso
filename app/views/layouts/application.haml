@@ -19,9 +19,8 @@
             %ul.nav
               %li{ class: "#{"active" if params[:controller] == "trusted_roots"}"}
                 = link_to "Authorizations", trusted_roots_path
-              - if can?(:manage, Application)
-                %li{ class: "#{"active" if params[:controller] == "applications"}"}
-                  = link_to "Applications", applications_path
+              %li{ class: "#{"active" if params[:controller] == "applications"}"}
+                = link_to "Applications", applications_path
           .nav-collapse.collapse
             - if current_user
               .btn-group.pull-right.user

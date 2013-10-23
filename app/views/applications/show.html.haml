@@ -10,15 +10,10 @@
 %p
   %b Hostname:
   = @application.hostname
-%p
-  %b Is client:
-  = @application.is_client
-%p
-  %b Is provider:
-  = @application.is_provider
-%p
-  %b Trusted:
-  = @application.trusted
+- if can? :create_trusted, Application
+  %p
+    %b Trusted:
+    = @application.trusted
 
 = link_to 'Edit', edit_application_path(@application), :class => "btn btn-primary"
 = link_to 'Back', applications_path, :class => "btn btn-default"

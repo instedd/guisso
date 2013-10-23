@@ -4,9 +4,8 @@
   %tr
     %th Name
     %th Hostname
-    %th Is client
-    %th Is provider
-    %th Trusted
+    - if can? :create_trusted, Application
+      %th Trusted
     %th
     %th
     %th
@@ -15,9 +14,8 @@
     %tr
       %td= application.name
       %td= application.hostname
-      %td= application.is_client
-      %td= application.is_provider
-      %td= application.trusted
+      - if can? :create_trusted, Application
+        %td= application.trusted
       %td= link_to 'Show', application, :class => "btn btn-default"
       %td= link_to 'Edit', edit_application_path(application), :class => "btn btn-default"
       %td= link_to 'Destroy', application, :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => "btn btn-danger"

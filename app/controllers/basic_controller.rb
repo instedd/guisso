@@ -3,7 +3,7 @@ class BasicController < ApplicationController
     return head :forbidden unless request.authorization && request.authorization =~ /^Basic (.*)/m
     client_id, client_secret = Base64.decode64($1).split(/:/, 2)
 
-    app = Application.find_by(identifier: client_id, secret: client_secret, trusted: true, is_provider: true)
+    app = Application.find_by(identifier: client_id, secret: client_secret, trusted: true)
     unless app
       return head :forbidden
     end

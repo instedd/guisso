@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :identities, dependent: :destroy
   has_many :trusted_roots, dependent: :destroy
   has_many :extra_passwords, dependent: :destroy
+  has_many :applications, dependent: :destroy
 
   enumerated_attribute :role, %w(user admin) do
     label :user => 'User'
@@ -19,5 +20,9 @@ class User < ActiveRecord::Base
     else
       email
     end
+  end
+
+  def admin?
+    role == :admin
   end
 end

@@ -7,6 +7,7 @@ class ApplicationsController < ApplicationController
   before_filter :load_application, only: :update
 
   def create
+    @application.user_id = current_user.id
     respond_to do |format|
       if @application.save
         format.html { redirect_to @application, notice: 'Application was successfully created.' }
@@ -17,6 +18,7 @@ class ApplicationsController < ApplicationController
   end
 
   def update
+    @application.user_id = current_user.id
     respond_to do |format|
       if @application.update_attributes(application_params)
         format.html { redirect_to @application, notice: 'Application was successfully updated.' }
@@ -37,7 +39,10 @@ class ApplicationsController < ApplicationController
   private
 
   def application_params
-    params.require(:application).permit(:name, :hostname, :is_client, :is_provider, :trusted)
+    options = [:name, :hostname]
+    options.push :trusted if current_user.admin?
+
+    params.require(:application).permit(*options)
   end
 
   def load_application
@@ -46,5 +51,6 @@ class ApplicationsController < ApplicationController
 
   def create_application
     @application = Application.new(application_params)
+    @application.user_id = current_user.id
   end
 end

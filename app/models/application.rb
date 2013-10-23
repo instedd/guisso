@@ -3,6 +3,8 @@ class Application < ActiveRecord::Base
   validates :name, :secret, :presence => true
   validates :identifier, :presence => true, :uniqueness => true
 
+  belongs_to :user
+
   private
 
   def setup

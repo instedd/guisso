@@ -10,7 +10,7 @@ class Oauth2::TokenEndpoint
       app = Application.find_by(identifier: req.client_id, secret: req.client_secret) or req.invalid_client!
       case req.grant_type
       when :client_credentials
-        unless app.trusted && app.is_client
+        unless app.trusted
           req.invalid_grant!
         end
 

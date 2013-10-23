@@ -12,15 +12,10 @@
   .field
     = f.label :hostname
     = f.text_field :hostname
-  .field
-    = f.check_box :is_client
-    = f.label :is_client, :class => "checkbox inline"
-  .field
-    = f.check_box :is_provider
-    = f.label :is_provider, :class => "checkbox inline"
-  .field
-    = f.check_box :trusted
-    = f.label :trusted, :class => "checkbox inline"
+  - if can? :create_trusted, Application
+    .field
+      = f.check_box :trusted
+      = f.label :trusted, :class => "checkbox inline"
   %br
   = f.submit 'Save', :class => "btn btn-primary"
   = link_to 'Show', @application, :class => "btn btn-default" unless @application.new_record?
