@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 require 'rvm/capistrano'
 
-set :rvm_ruby_string, '2.0.0-p247'
+set :rvm_ruby_string, '2.0.0-p353'
 set :rvm_type, :system
 set :application, "guisso"
 set :repository,  "https://bitbucket.org/instedd/guisso"
@@ -23,7 +23,7 @@ namespace :deploy do
   end
 
   task :symlink_configs, :roles => :app do
-    %W(settings.yml).each do |file|
+    %W(database.yml settings.yml).each do |file|
       run "test -e #{shared_path}/#{file} && ln -nfs #{shared_path}/#{file} #{release_path}/config/ || true"
     end
   end
