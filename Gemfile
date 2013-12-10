@@ -19,6 +19,7 @@ gem 'activerecord-session_store', git: 'https://github.com/rails/activerecord-se
 gem 'rack-oauth2', git: 'https://github.com/manastech/rack-oauth2.git'
 gem 'cancan'
 gem 'enumerated_attribute', :git => "https://github.com/ssendev/enumerated_attribute.git"
+gem 'newrelic_rpm'
 
 group :doc do
   gem 'sdoc', require: false
