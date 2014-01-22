@@ -17,6 +17,7 @@ class Oauth2::TokenEndpoint
         resource = nil
         user = nil
         token_type = MacAccessToken
+        expires_at = nil
         req.scope.each do |scope|
           key, value = scope.split '=', 2
           case key
@@ -28,6 +29,10 @@ class Oauth2::TokenEndpoint
             if value == 'bearer'
               token_type = BearerAccessToken
             end
+          when 'never_expires'
+            if value == 'true'
+              expires_at = 1000.years.from_now
+            end
           end
         end
 
@@ -35,7 +40,7 @@ class Oauth2::TokenEndpoint
           req.invalid_grant!
         end
 
-        access_token = token_type.create! client_id: app.id, resource_id: resource.id, user_id: user.id
+        access_token = token_type.create! client_id: app.id, resource_id: resource.id, user_id: user.id, expires_at: expires_at
         res.access_token = access_token.to_token
       when :authorization_code
         code = AuthorizationCode.valid.find_by_token(req.code)
