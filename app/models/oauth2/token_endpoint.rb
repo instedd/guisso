@@ -14,7 +14,7 @@ class Oauth2::TokenEndpoint
           req.invalid_grant!
         end
 
-        resource = nil
+        resource = app
         user = nil
         token_type = MacAccessToken
         expires_at = nil
@@ -36,7 +36,7 @@ class Oauth2::TokenEndpoint
           end
         end
 
-        unless user && resource
+        unless user
           req.invalid_grant!
         end
 
