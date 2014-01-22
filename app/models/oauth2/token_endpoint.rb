@@ -16,6 +16,7 @@ class Oauth2::TokenEndpoint
 
         resource = nil
         user = nil
+        token_type = MacAccessToken
         req.scope.each do |scope|
           key, value = scope.split '=', 2
           case key
@@ -23,6 +24,10 @@ class Oauth2::TokenEndpoint
             resource = Application.find_by(hostname: value)
           when 'user'
             user = User.find_by(email: value)
+          when 'token_type'
+            if value == 'bearer'
+              token_type = BearerAccessToken
+            end
           end
         end
 
@@ -30,12 +35,12 @@ class Oauth2::TokenEndpoint
           req.invalid_grant!
         end
 
-        access_token = AccessToken.create! client_id: app.id, resource_id: resource.id, user_id: user.id
-        res.access_token = access_token.to_mac_token
+        access_token = token_type.create! client_id: app.id, resource_id: resource.id, user_id: user.id
+        res.access_token = access_token.to_token
       when :authorization_code
         code = AuthorizationCode.valid.find_by_token(req.code)
         req.invalid_grant! if code.blank? || code.redirect_uri != req.redirect_uri
-        res.access_token = code.create_access_token.to_mac_token#(:with_refresh_token)
+        res.access_token = code.create_access_token.to_token#(:with_refresh_token)
       else
         req.unsupported_grant_type!
       end

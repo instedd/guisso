@@ -19,11 +19,7 @@ class Oauth2Controller < ApplicationController
       return head :forbidden
     end
 
-    render json: {
-      mac_key: access_token.secret,
-      mac_algorithm: access_token.algorithm,
-      user: access_token.user.email,
-    }
+    render json: access_token
   end
 
   def authorize
@@ -69,7 +65,7 @@ class Oauth2Controller < ApplicationController
             authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s)
             res.code = authorization_code.token
           # when :token
-          #   res.access_token = current_user.access_tokens.create(:client_id => @client).to_mac_token
+          #   res.access_token = current_user.access_tokens.create(:client_id => @client).to_token
           end
           res.approve!
         else
