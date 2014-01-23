@@ -2,7 +2,7 @@ class AccessTokensController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @tokens = current_user.access_tokens.valid
+    @tokens = current_user.access_tokens.valid.order('created_at desc')
   end
 
   def destroy
