@@ -14,6 +14,11 @@
   %p
     %b Trusted:
     = @application.trusted
+%p
+  %a(data-toggle="collapse" href="#guisso-yml") view guisso.yml
+  #guisso-yml.collapse
+    %pre
+      = preserve alto_guisso_yml(@application)
 
 = link_to 'Edit', edit_application_path(@application), :class => "btn btn-primary"
 = link_to 'Back', applications_path, :class => "btn btn-default"
