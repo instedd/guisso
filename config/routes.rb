@@ -17,6 +17,7 @@ Guisso::Application.routes.draw do
 
   resources :trusted_roots
   resources :applications
+  resources :access_tokens, only: [:index, :destroy]
 
   root to: 'trusted_roots#index'
 end

@@ -1,0 +1,15 @@
+%h1 Tokens
+
+%table.table
+  %tr
+    %th Application
+    %th Token
+    %th Created at
+    %th
+
+  - @tokens.each do |token|
+    %tr
+      %td= token.resource.name
+      %td= truncate(token.token, length: 12)
+      %td= time_ago_in_words(token.created_at)
+      %td= link_to('revoke', access_token_path(token), method: :delete, data: { confirm: "Are you sure?" })

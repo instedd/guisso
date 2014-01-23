@@ -19,6 +19,8 @@
             %ul.nav
               %li{ class: "#{"active" if params[:controller] == "trusted_roots"}"}
                 = link_to "Authorizations", trusted_roots_path
+              %li{ class: "#{"active" if params[:controller] == "access_tokens"}"}
+                = link_to "Tokens", access_tokens_path
               %li{ class: "#{"active" if params[:controller] == "applications"}"}
                 = link_to "Applications", applications_path
           .nav-collapse.collapse
