@@ -6,7 +6,7 @@ class ExtraPassword < ActiveRecord::Base
 
       valid = validate(resource) do
         resource.extra_passwords.any? do |extra_password|
-          extra_password.valid_password?(password)
+          extra_password.valid_password?(password, extra_password.pepper)
         end
       end
 
@@ -36,5 +36,12 @@ class ExtraPassword < ActiveRecord::Base
 
   def email
     user.email
+  end
+
+  def valid_password?(password, pepper)
+    return false if encrypted_password.blank?
+    bcrypt   = ::BCrypt::Password.new(encrypted_password)
+    password = ::BCrypt::Engine.hash_secret("#{password}#{pepper}", bcrypt.salt)
+    Devise.secure_compare(password, encrypted_password)
   end
 end

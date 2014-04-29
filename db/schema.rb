@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140122183058) do
+ActiveRecord::Schema.define(version: 20140429152436) do
 
   create_table "access_tokens", force: true do |t|
     t.integer  "client_id"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20140122183058) do
     t.string   "encrypted_password"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pepper"
   end
 
   create_table "identities", force: true do |t|
