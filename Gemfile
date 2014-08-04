@@ -26,6 +26,7 @@ group :doc do
 end
 
 group :development, :test do
+  gem 'rspec-rails'
   gem 'pry-byebug'
   gem 'capistrano'
   gem 'rvm-capistrano'

@@ -79,6 +79,7 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.0)
     haml (4.0.3)
@@ -154,6 +155,22 @@ GEM
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
+    rspec-core (3.0.3)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
+    rspec-mocks (3.0.3)
+      rspec-support (~> 3.0.0)
+    rspec-rails (3.0.2)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.3)
     ruby-openid (2.3.0)
     rvm-capistrano (1.5.0)
       capistrano (>= 2.15.4)
@@ -213,6 +230,7 @@ DEPENDENCIES
   pry-byebug
   rack-oauth2!
   rails (~> 4.0.0)
+  rspec-rails
   ruby-openid
   rvm-capistrano
   sass-rails (~> 4.0.0)
