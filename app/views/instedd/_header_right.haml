@@ -5,4 +5,4 @@
         - dropdown_item 'Settings', edit_user_registration_path
         - dropdown_item 'Report a bug', "mailto:support@instedd.org?subject=[guisso-bug]"
         - dropdown_divider
-        - dropdown_item 'Sign out', destroy_user_session_path, method: :delete
+        - dropdown_item 'Sign out', destroy_user_session_path( after_sign_out_url: new_user_session_path), method: :delete
