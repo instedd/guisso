@@ -1,0 +1,8 @@
+.pull-right
+  - if current_user
+    .btn-group
+      - dropdown current_user.email do
+        - dropdown_item 'Settings', edit_user_registration_path
+        - dropdown_item 'Report a bug', "mailto:support@instedd.org?subject=[guisso-bug]"
+        - dropdown_divider
+        - dropdown_item 'Sign out', destroy_user_session_path, method: :delete

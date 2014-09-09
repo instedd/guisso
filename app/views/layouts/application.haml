@@ -1,48 +1,21 @@
-!!!
-%html
-  %head
-    %title Login InSTEDD.org
-    = stylesheet_link_tag    "application", media: "all"
-    = javascript_include_tag "application"
-    = csrf_meta_tags
-%body
-  .navbar.navbar-fixed-top
-    .navbar-inner
-      .container-fluid
-        %button.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse", :type => "button"}
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        %a.brand{:href => root_path} InSTEDD
-        - unless @hide_navbar
-          - unless current_user.nil?
-            %ul.nav
-              %li{ class: "#{"active" if params[:controller] == "trusted_roots"}"}
-                = link_to "Authorizations", trusted_roots_path
-              %li{ class: "#{"active" if params[:controller] == "access_tokens"}"}
-                = link_to "Tokens", access_tokens_path
-              %li{ class: "#{"active" if params[:controller] == "applications"}"}
-                = link_to "Applications", applications_path
-          .nav-collapse.collapse
-            - if current_user
-              .btn-group.pull-right.user
-                %a.btn.btn-link{"data-toggle" => "dropdown", href: "#"}
-                  = current_user.email
-                  %i.ic-cog
-                %ul.dropdown-menu
-                  %li= link_to "Settings", edit_user_registration_path
-                  %li= link_to "Sign out", destroy_user_session_path, method: :delete
+- content_for :html_title do
+  Login InSTEDD.org
 
-  .container-fluid
-    - if flash[:notice].present?
-      .alert-container
-        .alert.alert-success
-          %button.close{"data-dismiss" => "alert", "type" => "button"} x
-          = flash[:notice]
-    - if flash[:alert].present?
-      .alert-container
-        .alert.alert-block
-          %button.close{"data-dismiss" => "alert", "type" => "button"} x
-          = flash[:alert]
+- content_for :app_name do
+  InSTEDD Platform
 
-    = yield
+- content_for :app_logo do
+  - image_tag "/assets/instedd-bootstrap/header/logos/guisso.png"
+
+- content_for :app_version do
+  = Guisso::Application.config.version_name
+
+- top_nav_bar do
+  - unless current_user.nil?
+    - top_nav_bar_item "Authorizations", trusted_roots_path, params[:controller] == "trusted_roots"
+    - top_nav_bar_item "Tokens", access_tokens_path, params[:controller] == "access_tokens"
+    - top_nav_bar_item "Applications", applications_path, params[:controller] == "applications"
+
+- if current_user.nil?
+  - @body_class = "noheader #{@body_class}"
+= render template: 'instedd/application_smallfooter'

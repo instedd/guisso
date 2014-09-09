@@ -1,0 +1,61 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ */
+
+@import "instedd-bootstrap";
+
+[class*="span"].centred {
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+}
+
+$orange: #ff4f00;
+
+.box {
+  @extend .table-bordered;
+  @extend .table-condensed;
+  @include box-shadow( 0 1px 5px rgba(0,0,0,.15));
+  display: table;
+  padding: 14px 9px;
+
+  hr {
+    margin: 7px 0;
+  }
+}
+
+h1.orange {
+  color: $orange;
+}
+
+.content {
+  a:not(.btn) {
+    color: $orange;
+    &:hover {
+      color: darken($orange, 10%);
+    }
+  }
+}
+
+a.google {
+  width: 216px;
+  height: 42px;
+  display: block;
+  margin-left: -5px;
+  background: image-url('White-signin-Long-32dp/White-signin-Long-base-32dp.png');
+  &:hover {
+    background: image-url('White-signin-Long-32dp/White-signin-Long-hover-32dp.png');
+  }
+  &:active {
+    background: image-url('White-signin-Long-32dp/White-signin-Long-press-32dp.png');
+  }
+}

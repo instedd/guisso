@@ -1,14 +1,35 @@
-%h2 Sign in
-= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  %div
-    = f.label :email
-    = f.email_field :email
-  %div
-    = f.label :password
-    = f.password_field :password
-  - if devise_mapping.rememberable?
-    %label.checkbox
-      = f.check_box :remember_me
-      = f.label :remember_me
-  %div= f.submit "Sign in"
-= render "devise/shared/links"
+%center
+  %h1.orange One account to access All InSTEDD Platform apps
+  %p Guisso Unveils InSTEDD Single Sign On
+
+.row
+  .span3.centred
+    .box
+      = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+
+        = f.input :email, :wrapper => :prepend, :label => false do
+          %span.add-on
+            %i.icon-envelope
+          = f.input_field :email, placeholder: 'Email'
+
+        = f.input :password, :wrapper => :prepend, :label => false do
+          %span.add-on
+          = f.input_field :password, placeholder: 'Password'
+
+        - if devise_mapping.rememberable?
+          .control-group
+            .controls
+              %label.checkbox
+                = f.label :remember_me do
+                  = f.check_box :remember_me
+                  Remember me
+
+        .control-group
+          .controls
+            = f.submit "Log in", class: 'btn'
+
+      %hr
+
+      = render "devise/shared/links"
+
+    = render "devise/shared/omniauth_links"

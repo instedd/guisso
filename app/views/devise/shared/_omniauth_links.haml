@@ -1,0 +1,10 @@
+%br
+
+- if devise_mapping.omniauthable?
+  - resource_class.omniauth_providers.each do |provider|
+    - origin = session[:last_oidreq] ? '/openid/login' : nil
+    - if provider.to_s == 'google'
+      = link_to "", omniauth_authorize_path(resource_name, provider, origin: origin), class: provider.to_s
+    - else
+      = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider, origin: origin), class: provider.to_s
+    %br/
