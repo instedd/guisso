@@ -1,21 +1,18 @@
-%center
+- content_for :form_title do
   %h1 Forgot your password?
 
-.row
-  .span3.centred
-    .box
-      = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
-        / = devise_error_messages!
+= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+  / = devise_error_messages!
 
-        = f.input :email, :wrapper => :prepend, :label => false do
-          %span.add-on
-            %i.icon-envelope
-          = f.input_field :email, placeholder: 'Email'
+  = f.input :email, :wrapper => :prepend, :label => false do
+    %span.add-on
+      %i.icon-envelope
+    = f.input_field :email, placeholder: 'Email'
 
-        .control-group
-          .controls
-            = f.submit "Send me reset password instructions", class: 'btn'
+  .control-group
+    .controls
+      = f.submit "Send me reset password instructions", class: 'btn'
 
-      %hr
+%hr
 
-      = render "devise/shared/links"
+= render "devise/shared/links"

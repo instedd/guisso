@@ -1,25 +1,22 @@
-%center
+- content_for :form_title do
   %h1 Change your password
 
-.row
-  .span3.centred
-    .box
-      = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
-        /= devise_error_messages!
-        = f.hidden_field :reset_password_token
+= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
+  /= devise_error_messages!
+  = f.hidden_field :reset_password_token
 
-        = f.input :password, :wrapper => :prepend, :label => false do
-          %span.add-on
-          = f.input_field :password, placeholder: 'New password'
+  = f.input :password, :wrapper => :prepend, :label => false do
+    %span.add-on
+    = f.input_field :password, placeholder: 'New password'
 
-        = f.input :password_confirmation, :wrapper => :prepend, :label => false do
-          %span.add-on
-          = f.input_field :password_confirmation, placeholder: 'Password confirmation'
+  = f.input :password_confirmation, :wrapper => :prepend, :label => false do
+    %span.add-on
+    = f.input_field :password_confirmation, placeholder: 'Password confirmation'
 
-        .control-group
-          .controls
-            = f.submit "Change my password", class: 'btn'
+  .control-group
+    .controls
+      = f.submit "Change my password", class: 'btn'
 
-      %hr
+%hr
 
-      = render "devise/shared/links"
+= render "devise/shared/links"

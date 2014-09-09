@@ -1,35 +1,33 @@
-%center
+- content_for :form_title do
   %h1.orange One account to access All InSTEDD Platform apps
   %p Guisso Unveils InSTEDD Single Sign On
 
-.row
-  .span3.centred
-    .box
-      = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
 
-        = f.input :email, :wrapper => :prepend, :label => false do
-          %span.add-on
-            %i.icon-envelope
-          = f.input_field :email, placeholder: 'Email'
+  = f.input :email, :wrapper => :prepend, :label => false do
+    %span.add-on
+      %i.icon-envelope
+    = f.input_field :email, placeholder: 'Email'
 
-        = f.input :password, :wrapper => :prepend, :label => false do
-          %span.add-on
-          = f.input_field :password, placeholder: 'Password'
+  = f.input :password, :wrapper => :prepend, :label => false do
+    %span.add-on
+    = f.input_field :password, placeholder: 'Password'
 
-        - if devise_mapping.rememberable?
-          .control-group
-            .controls
-              %label.checkbox
-                = f.label :remember_me do
-                  = f.check_box :remember_me
-                  Remember me
+  - if devise_mapping.rememberable?
+    .control-group
+      .controls
+        %label.checkbox
+          = f.label :remember_me do
+            = f.check_box :remember_me
+            Remember me
 
-        .control-group
-          .controls
-            = f.submit "Log in", class: 'btn'
+  .control-group
+    .controls
+      = f.submit "Sign in", class: 'btn'
 
-      %hr
+%hr
 
-      = render "devise/shared/links"
+= render "devise/shared/links"
 
-    = render "devise/shared/omniauth_links"
+- content_for :after_form do
+  = render "devise/shared/omniauth_links"

@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_default_host
 
+  layout :layout_by_resource
+
   private
 
   def set_default_host
@@ -21,5 +23,13 @@ class ApplicationController < ActionController::Base
 
   def after_sign_out_path_for(resource_or_scope)
     params[:after_sign_out_url].presence || request.referrer || root_path
+  end
+
+  def layout_by_resource
+    if devise_controller?
+      "centred_form"
+    else
+      "application"
+    end
   end
 end
