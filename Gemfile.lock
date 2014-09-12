@@ -1,6 +1,6 @@
 GIT
   remote: https://bitbucket.org/instedd/instedd-bootstrap.git
-  revision: 11ab521d6df455f3b179af4f496bcf5871c11f39
+  revision: e068d912c1562bcdb6570022976d736b4f4e67db
   branch: master
   specs:
     instedd-bootstrap (0.0.1)

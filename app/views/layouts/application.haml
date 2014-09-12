@@ -17,5 +17,5 @@
     - top_nav_bar_item "Applications", applications_path, params[:controller] == "applications"
 
 - if current_user.nil?
-  - @body_class = "noheader #{@body_class}"
+  - add_body_class "noheader"
 = render template: 'instedd/application_smallfooter'
