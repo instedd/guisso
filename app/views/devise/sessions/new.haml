@@ -2,32 +2,36 @@
   %h1.orange Access all InSTEDD Platform apps using the same account
   %p InSTEDD apps integrate better if you use the same account for all of them
 
+  .app-logo
+    / Must be replaced with application logo
+    = image_tag '/assets/instedd-bootstrap/login/mbuilder.png'
+
 = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
 
-  = f.input :email, :wrapper => :prepend, :label => false do
-    %span.add-on
-      %i.icon-envelope
-    = f.input_field :email, placeholder: 'Email'
+  .fieldset
 
-  = f.input :password, :wrapper => :prepend, :label => false do
-    %span.add-on
-    = f.input_field :password, placeholder: 'Password'
 
-  - if devise_mapping.rememberable?
+    = f.input :email, :label => false do
+      = f.input_field :email, placeholder: 'Email', class: 'block email'
+
+    = f.input :password, :label => false do
+      = f.input_field :password, placeholder: 'Password', class: 'block password'
+
+    - if devise_mapping.rememberable?
+      .control-group
+        .controls
+          %label.checkbox
+            = f.label :remember_me do
+              = f.check_box :remember_me
+              Remember me
+
     .control-group
       .controls
-        %label.checkbox
-          = f.label :remember_me do
-            = f.check_box :remember_me
-            Remember me
+        = f.submit "Sign in", class: 'btn'
 
-  .control-group
-    .controls
-      = f.submit "Sign in", class: 'btn'
+  %hr
 
-%hr
-
-= render "devise/shared/links"
+  = render "devise/shared/links"
 
 - content_for :after_form do
   = render "devise/shared/omniauth_links"

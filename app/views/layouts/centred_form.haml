@@ -2,9 +2,9 @@
   %center
     = yield :form_title
 
-  .row
-    .span3.centred
-      .box
+  .row.centred
+    .span4
+      .well-white
         = yield
 
       - if content_for?(:after_form)
