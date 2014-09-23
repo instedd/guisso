@@ -14,6 +14,7 @@ Guisso::Application.routes.draw do
   post 'oauth2/create_authorization' => 'oauth2#create_authorization', as: :create_authorization
 
   get 'basic/check' => 'basic#check'
+  get 'home' => 'home#index'
 
   resources :trusted_roots
   resources :applications

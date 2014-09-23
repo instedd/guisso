@@ -13,6 +13,7 @@
 
 @import "instedd-bootstrap";
 
+
 .row.centred {
   margin: 0;
 
@@ -72,4 +73,93 @@ a.google {
 
 .block {
   width: 100%;
+}
+
+
+//-------------- Home --------------------------
+//----------------------------------------------
+
+.homepage {
+
+  text-align: center;
+
+  .row-fluid {
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: TheSansBlack, Arial, Helvetica, sans-serif;
+    font-size: 46px;
+    line-height: 47px;
+    color: #ff6600;
+    margin: 10px 0;
+
+    small {
+      font-family: TheSansPlain, Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      color: inherit;
+      line-height: 24px;
+      margin-bottom: 18px;
+      margin-top: 10px;
+      display: block;
+    }
+  }
+
+  .main-img {
+    margin-top: 50px;
+  }
+
+  .onepager {
+    text-align: right;
+    padding-top: 40px;
+    a {
+      color: #555555 !important;
+    }
+  }
+}
+
+#platform {
+  margin: 10px auto;
+  width: 600px;
+  height: 600px;
+
+  .label {
+    background: none;
+    font-size: 12px;
+    text-align: center;
+    color: #555555;
+    margin:0;
+    text-shadow:none;
+    white-space: normal;
+  }
+
+  .enabled {
+    stroke: #555555;
+  }
+
+  .disabled {
+    stroke: #cccccc;
+  }
+  g[data-type="app"] {
+    @include transition(opacity ease-out 0.2s);
+  }
+}
+
+.cases {
+  > div {
+    display: none;
+    min-height: 150px;
+
+    &:first-child {
+      display: block;
+    }
+
+    h1 {
+      color: #999999;
+
+      span {
+        color: #000000;
+      }
+    }
+  }
 }

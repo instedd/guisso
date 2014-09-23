@@ -1,0 +1,162 @@
+- add_body_class "centred"
+
+.homepage
+  .row-fluid
+    .span12
+      %h1
+        You make the world a better place.
+        %br
+        We give you the toolkit to do it'
+        %small
+          You make the world a better place.
+          We give you the toolkit to do it
+  .row-fluid
+    .span12
+      %p We have created an evolving platform of technology tools and services based on years of collaboration with our partners around the world. These tools are completely free and open source, and available for anyone wanting to use them to improve the social impact and scale of their work. All our tools can be tailored to individual needs and integrated with other existing tools. We are actively engaged with our user communities to further apply and enhance our tools and increase their impact.
+  .row-fluid.main-img
+    .span12
+    = image_tag "main-home.png"
+    .onepager
+      = icon_link_to :'icf-pdf', 'Download One-Pager pdf (1.15 MB)', '#', {target: '_blank'}
+%br
+%hr
+%br
+
+.cases
+  .row-fluid#id1
+    .span12
+    %h1
+      Platform/
+      %span Nuntium
+    %p Nuntium is a tool that allows anyone to build robust and scalable messaging applications.
+
+  .row-fluid#id2
+    .span12
+    %h1
+      Platform/
+      %span Local Gateway
+    %p Watchfire is a recruitment and management software application that uses GPS, voice, and text messages improve rapid team coordination.
+
+  .row-fluid#id3
+    .span12
+    %h1
+      Platform/
+      %span Pollit
+    %p Pollit is a simple open-source web application that allows the user to conduct surveys via text messages, which allows to easily scale the number of people reached and lets them answer anytime, anywhere.
+
+  .row-fluid#id4
+    .span12
+    %h1
+      Platform/
+      %span Remindem
+    %p Remindem helps you keep people informed of important things going on in their life and work.
+
+  .row-fluid#id5
+    .span12
+    %h1
+      Platform/
+      %span Task Me Up
+    %p TaskMeUp is an open-source crowdsourcing platform, that allows a user to setup feeds of incoming unstructured information and make use of communities of volunteers to process and organize the information, by defining an easily customizable process for each incoming piece of information.
+
+  .row-fluid#id6
+    .span12
+    %h1
+      Platform/
+      %span Veegilo
+    %p Veegilo is a simple tool that helps you contain disease outbreaks faster by collecting information about cases in a simple and unified way.
+
+  .row-fluid#id7
+    .span12
+    %h1
+      Platform/
+      %span Verboice
+    %p Voice is the most universal and inclusive means of communication, and it’s an ideal way to expand the reach and impact of health and humanitarian technologies.
+
+  .row-fluid#id8
+    .span12
+    %h1
+      Platform/
+      %span Resource Map
+    %p Resource Map helps people track their work, resources and results geographically in a collaborative environment accessible from anywhere.
+
+  .row-fluid#id9
+    .span12
+    %h1
+      Platform/
+      %span Seentags
+    %p Seentags is a service that helps extract accurate information from free text reports, without the need to set up any initial reporting structure.
+
+  .row-fluid#id10
+    .span12
+    %h1
+      Platform/
+      %span Riff
+    %p Riff enables detection, prediction and response to health-related events (such as disease outbreaks or pandemics) through a collaborative environment that combines data exploration, integration, search and inferencing – providing more complex analysis and deeper insight.
+
+  .row-fluid#id11
+    .span12
+    %h1
+      Platform/
+      %span Reporting Wheel
+    %p The Reporting Wheel is a simple paper-based tool designed for easily encoding information and allow for reporting structured-data bypassing literacy and technological challenges.
+
+  .row-fluid#id12
+    .span12
+    %h1
+      Platform/
+      %span GeoChat
+    %p GeoChat is a flexible open source group communications technology that lets team members interact to maintain shared geospatial awareness of who is doing what where over any device, on any platform, over any network.
+
+  .row-fluid#id13
+    .span12
+    %h1
+      Platform/
+      %span Mesh4x
+    %p Mesh4X is a set of libraries, services and applications that allow data to be synchronized across multiple applications, databases and files.
+
+
+.row-fluid
+  .span12
+    #platform
+
+
+:javascript
+  var platform, tooltip, container;
+
+  var showApp = function(e) {
+    if (e.info.type == 'app') {
+      $('.cases div').hide();
+      $('#id' + e.info.id).show();
+    }
+  };
+
+  window.onload = function() {
+    var apps = [
+      {id:1, name:"Nuntium", icon:"/assets/nuntium.png"},
+      {id:2, name:"Local Gateway", icon:"/assets/local_gateway.png"},
+      {id:3, name:"Pollit", icon:"/assets/pollit.png"},
+      {id:4, name:"Remindem", icon:"/assets/remindem.png"},
+      {id:5, name:"Task Me Up", icon:"/assets/task_me_up.png"},
+      {id:6, name:"Veegilo", icon:"/assets/veegilo.png"},
+      {id:7, name:"Verboice", icon:"/assets/verboice.png"},
+      {id:8, name:"Resource Map", icon:"/assets/resource_map.png"},
+      {id:9, name:"Seentags", icon:"/assets/seentags.png"},
+      {id:10, name:"Riff", icon:"/assets/riff.png"},
+      {id:11, name:"Reporting Wheel", icon:"/assets/reporting_wheel.png"},
+      {id:12, name:"GeoChat", icon:"/assets/geochat.png"},
+      {id:13, name:"Mesh4x", icon:"/assets/mesh4x.png"}
+    ];
+    var cases = [
+      {id:1, relations:[{a:13, b:1}, {a:1, b:9}, {a:7, b:9}]},
+      {id:2, relations:[{a:1, b:4}, {a:1, b:9}, {a:10, b:13}, {a:5, b:7}, {a:7, b:10}, {a:1, b:13}, {a:1, b:9}, {a:1, b:9}]},
+      {id:3, relations:[{a:4, b:9}, {a:6, b:9}]},
+      {id:4, relations:[{a:2, b:3}, {a:3, b:10}, {a:10, b:13}, {a:2, b:10}]},
+      {id:5, relations:[{a:10, b:13}, {a:2, b:10}]},
+      {id:6, relations:[{a:2, b:8},{a:2, b:9}]}
+    ];
+    container = document.getElementById("platform");
+    platform = new PlatformVisualization(apps, cases, container);
+    platform.addEventListener("click", showApp);
+    window.platform = platform;
+  };
+
