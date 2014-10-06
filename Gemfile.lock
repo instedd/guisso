@@ -93,6 +93,7 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.0)
+    ffaker (1.25.0)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -112,6 +113,7 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.0)
+    machinist (2.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -232,11 +234,13 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   enumerated_attribute!
+  ffaker
   haml
   haml-rails
   instedd-bootstrap!
   jbuilder (~> 1.2)
   jquery-rails
+  machinist
   mysql2
   newrelic_rpm
   omniauth
