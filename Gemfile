@@ -31,3 +31,8 @@ group :development, :test do
   gem 'capistrano'
   gem 'rvm-capistrano'
 end
+
+group :test do
+  gem 'machinist'
+  gem 'ffaker'
+end

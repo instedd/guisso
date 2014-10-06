@@ -38,7 +38,7 @@ class ExtraPassword < ActiveRecord::Base
     user.email
   end
 
-  def valid_password?(password, pepper)
+  def valid_password?(password, pepper = self.pepper)
     return false if encrypted_password.blank?
     bcrypt   = ::BCrypt::Password.new(encrypted_password)
     password = ::BCrypt::Engine.hash_secret("#{password}#{pepper}", bcrypt.salt)
