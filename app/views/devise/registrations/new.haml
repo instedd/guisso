@@ -4,13 +4,13 @@
 = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   / = devise_error_messages! / not needed, errors displayed on each field
 
-  = f.input :email, :wrapper => :prepend, :label => false do
+  = f.input :email, :label => false do
     = f.input_field :email, placeholder: 'Email', class: 'block email'
 
-  = f.input :password, :wrapper => :prepend, :label => false do
+  = f.input :password, :label => false do
     = f.input_field :password, placeholder: 'Password', class: 'block password'
 
-  = f.input :password_confirmation, :wrapper => :prepend, :label => false do
+  = f.input :password_confirmation, :label => false do
     = f.input_field :password_confirmation, placeholder: 'Password confirmation', class: 'block password'
 
   .control-group
