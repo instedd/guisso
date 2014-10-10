@@ -4,10 +4,8 @@
 = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
   / = devise_error_messages!
 
-  = f.input :email, :wrapper => :prepend, :label => false do
-    %span.add-on
-      %i.icon-envelope
-    = f.input_field :email, placeholder: 'Email'
+  = f.input :email, :label => false do
+    = f.input_field :email, placeholder: 'Email', class: 'block email'
 
   .control-group
     .controls

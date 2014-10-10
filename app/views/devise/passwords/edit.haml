@@ -5,13 +5,11 @@
   /= devise_error_messages!
   = f.hidden_field :reset_password_token
 
-  = f.input :password, :wrapper => :prepend, :label => false do
-    %span.add-on
-    = f.input_field :password, placeholder: 'New password'
+  = f.input :password, :label => false do
+    = f.input_field :password, placeholder: 'New password', class: 'block password'
 
-  = f.input :password_confirmation, :wrapper => :prepend, :label => false do
-    %span.add-on
-    = f.input_field :password_confirmation, placeholder: 'Password confirmation'
+  = f.input :password_confirmation, :label => false do
+    = f.input_field :password_confirmation, placeholder: 'Password confirmation', class: 'block password'
 
   .control-group
     .controls
