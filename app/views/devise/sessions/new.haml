@@ -1,5 +1,5 @@
 - content_for :form_title do
-  %h1.orange Access all InSTEDD Platform apps using the same account
+  %h1.orange Access all InSTEDD Platform apps <br> using the same account
   %p InSTEDD apps integrate better if you use the same account for all of them
 
   .app-logo
@@ -9,7 +9,6 @@
 = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
 
   .fieldset
-
 
     = f.input :email, :label => false do
       = f.input_field :email, placeholder: 'Email', class: 'block email'
