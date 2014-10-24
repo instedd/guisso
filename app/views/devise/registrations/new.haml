@@ -4,14 +4,17 @@
 = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   / = devise_error_messages! / not needed, errors displayed on each field
 
-  = f.input :email, :label => false do
+  = f.input :email, :label => false, :error => false do
     = f.input_field :email, placeholder: 'Email', class: 'block email'
+    = f.full_error :email
 
-  = f.input :password, :label => false do
+  = f.input :password, :label => false, :error => false do
     = f.input_field :password, placeholder: 'Password', class: 'block password'
+    = f.full_error :password
 
-  = f.input :password_confirmation, :label => false do
+  = f.input :password_confirmation, :label => false, :error => false do
     = f.input_field :password_confirmation, placeholder: 'Password confirmation', class: 'block password'
+    = f.full_error :password_confirmation
 
   .control-group
     .controls
@@ -19,4 +22,6 @@
 
 %hr
 
-= render "devise/shared/links"
+Already have an account?
+= link_to "Sign in", new_session_path(resource_name)
+

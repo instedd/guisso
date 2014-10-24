@@ -4,8 +4,9 @@
 = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
   / = devise_error_messages!
 
-  = f.input :email, :label => false do
+  = f.input :email, :label => false, :error => false do
     = f.input_field :email, placeholder: 'Email', class: 'block email'
+    = f.full_error :email
 
   .control-group
     .controls
@@ -13,4 +14,10 @@
 
 %hr
 
-= render "devise/shared/links"
+- if devise_mapping.confirmable?
+  = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
+  %br/
+
+= link_to "Sign in", new_session_path(resource_name)
+%br/
+
