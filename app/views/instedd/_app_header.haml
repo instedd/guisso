@@ -1,0 +1,14 @@
+.app-header
+  .container-fluid
+    .row-fluid
+      .span3
+        %a{:href => "/"}
+          = content_for :app_logo
+      - if content_for?(:tab_top_right)
+        = content_for :tab_top_right
+      .span9
+        - if content_for?(:app_header)
+          = content_for :app_header
+        - else
+          - render_breadcrumbs
+

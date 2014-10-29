@@ -10,4 +10,7 @@
       - if content_for?(:after_form)
         = yield :after_form
 
+  - if content_for?(:instedd_content_footer)
+    = content_for :instedd_content_footer
+
 = render template: 'layouts/application'

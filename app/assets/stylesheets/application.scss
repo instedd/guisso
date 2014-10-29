@@ -13,7 +13,6 @@
 
 @import "instedd-bootstrap";
 
-
 .row.centred {
   margin: 0;
 
@@ -44,7 +43,9 @@ $orange: #ff6600;
   }
 }
 
-h1.orange {
+h1.orange{
+  font-size: 24px;
+  line-height: 24px;
   color: $orange;
 }
 
@@ -73,6 +74,90 @@ a.google {
 
 .block {
   width: 100%;
+}
+
+// ---- Sign in view -----------------
+// -----------------------------------
+
+.simple_form.new_user#new_user{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.control-group{
+  #remember_me.checkbox {
+    padding-top: 0px;
+  }
+  #remember_me {
+    label {
+      line-height: 12px;
+    }
+    input {
+      margin-top: 0px;
+    }
+  }
+}
+
+// ---- Instedd apps icon list -----------------
+// ---------------------------------------------
+
+#instedd_apps_icon_list {
+  li {
+    display: inline-block;
+    margin: 0 3px;
+    a {
+      background: url(image-path("icons.png")) no-repeat;
+      display: block;
+      text-indent: -999em;
+      overflow: hidden;
+      width:40px;
+      height:40px;
+    }
+    &#geochat a {
+      background-position: 0 0;
+    }
+    &#mesh4X a {
+      background-position: (-40*1px) 0;
+    }
+    &#nuntium a {
+      background-position: (-40*2px) 0;
+    }
+    &#localGateway a {
+      background-position: (-40*3px) 0;
+    }
+    &#pollit a {
+      background-position: (-40*4px) 0;
+    }
+    &#remindem a {
+      background-position: (-40*5px) 0;
+    }
+    &#reportingWheel a {
+      background-position: (-40*6px) 0;
+    }
+    &#resourceMap a {
+      background-position: (-40*7px) 0;
+    }
+    &#riff a {
+      background-position: (-40*8px) 0;
+    }
+    &#seentags a {
+      background-position: (-40*9px) 0;
+    }
+    &#taskMeUp a {
+      background-position: (-40*10px) 0;
+    }
+    &#veegilo a {
+      background-position: (-40*11px) 0;
+      background-repeat: no-repeat;
+    }
+    &#verboice a {
+      background-position: (-40*12px) 0;
+      background-repeat: no-repeat;
+    }
+    &#mbuilder a {
+      background-position: (-40*15px) 0;
+    }
+  }
 }
 
 
