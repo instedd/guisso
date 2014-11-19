@@ -182,7 +182,7 @@ a.google {
 
   h1 {
     font-family: TheSansBlack, Arial, Helvetica, sans-serif;
-    font-size: 46px;
+    font-size: 33px;
     line-height: 47px;
     color: #ff6600;
     margin: 10px 0;
@@ -196,6 +196,10 @@ a.google {
       margin-top: 10px;
       display: block;
     }
+  }
+
+  p.subheader {
+    font-size:1em;
   }
 
   .main-img {

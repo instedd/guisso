@@ -11,6 +11,9 @@ class OpenIdController < ApplicationController
   def login
     oidreq = session[:last_oidreq]
     session[:last_oidreq] = nil
+    if query_string = CGI.parse(URI.parse(params["openid.return_to"]).query)
+      session[:custom_message] = query_string["custom_message"].first
+    end
 
     unless oidreq
       begin

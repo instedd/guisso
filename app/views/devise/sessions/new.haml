@@ -1,6 +1,10 @@
 - content_for :form_title do
-  %h1.orange Access all InSTEDD Platform apps <br> using the same account
-  %p InSTEDD apps integrate better if you use the same account for all of them
+  - if session[:custom_message]
+    %h1.orange= session[:custom_message]
+    %p.subheader Please log in
+  - else
+    %h1.orange Access all InSTEDD Platform apps <br> using the same account
+    %p.subheader InSTEDD apps integrate better if you use the same account for all of them
 
   .app-logo
     / Must be replaced with application logo
