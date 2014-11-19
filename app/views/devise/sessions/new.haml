@@ -1,6 +1,6 @@
 - content_for :form_title do
-  - if session[:custom_message]
-    %h1.orange= session[:custom_message]
+  - if @custom_message
+    %h1.orange= @custom_message
     %p.subheader Please log in
   - else
     %h1.orange Access all InSTEDD Platform apps <br> using the same account
