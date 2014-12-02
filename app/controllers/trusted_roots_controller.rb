@@ -2,7 +2,7 @@ class TrustedRootsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @trusted_roots = current_user.trusted_roots.all
+    @trusted_roots = current_user.trusted_roots.to_a
   end
 
   def destroy

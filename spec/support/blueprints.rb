@@ -16,3 +16,6 @@ end
 ExtraPassword.blueprint do
   password { Faker::Name.name[0..10] }
 end
+
+AuthorizationCode.blueprint do
+end
