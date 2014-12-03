@@ -63,6 +63,7 @@ GEM
     bcrypt (3.1.9)
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
+    breadcrumbs_on_rails (2.3.0)
     builder (3.1.4)
     byebug (3.5.1)
       columnize (~> 0.8)
@@ -110,6 +111,10 @@ GEM
     hike (1.2.3)
     httpclient (2.5.2)
     i18n (0.6.11)
+    instedd-rails (0.0.25)
+      breadcrumbs_on_rails (>= 2.2.0)
+      haml-rails
+      rails (>= 3.0)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -254,6 +259,7 @@ DEPENDENCIES
   haml
   haml-rails
   instedd-bootstrap!
+  instedd-rails (>= 0.0.25)
   jbuilder (~> 1.2)
   jquery-rails
   machinist

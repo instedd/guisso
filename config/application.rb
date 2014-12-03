@@ -31,5 +31,7 @@ module Guisso
     # Enable the fonts asset pipeline
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
+    config.google_analytics = ''
+
   end
 end
