@@ -17,5 +17,9 @@ module Guisso
     def self.whitelisted_hosts
       Config["whitelisted_hosts"]
     end
+
+    def self.google
+      Config["google"]
+    end
   end
 end
