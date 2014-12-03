@@ -8,7 +8,7 @@ module Oauth2::Token
       validates :expires_at, :presence => true
       validates :token, :presence => true, :uniqueness => true
 
-      scope :valid, lambda { where('expires_at >= ?', Time.now.utc) }
+      scope :valid, lambda { where('expires_at > ?', Time.now.utc) }
     end
   end
 
@@ -19,10 +19,6 @@ module Oauth2::Token
   def expired!
     self.expires_at = Time.now.utc
     self.save!
-  end
-
-  def expired?
-    self.expires_at <= Time.now.utc
   end
 
   private

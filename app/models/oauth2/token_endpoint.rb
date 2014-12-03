@@ -44,7 +44,7 @@ class Oauth2::TokenEndpoint
         res.access_token = access_token.to_token
       when :authorization_code
         code = AuthorizationCode.valid.find_by_token(req.code)
-        req.invalid_grant! if code.blank? || code.redirect_uri != req.redirect_uri || code.expired?
+        req.invalid_grant! if code.blank? || code.redirect_uri != req.redirect_uri
         token_type = req.params["token_type"] == "bearer" ? BearerAccessToken : MacAccessToken
         res.access_token = code.create_access_token(token_type).to_token#(:with_refresh_token)
       else
