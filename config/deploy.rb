@@ -4,7 +4,7 @@ require 'rvm/capistrano'
 set :rvm_ruby_string, '2.0.0-p353'
 set :rvm_type, :system
 set :application, "guisso"
-set :repository,  "https://bitbucket.org/instedd/guisso"
+set :repository,  "https://github.com/instedd/guisso"
 set :scm, :git
 set :user, 'ubuntu'
 set :group, 'ubuntu'
