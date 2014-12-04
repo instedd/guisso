@@ -59,16 +59,17 @@ h1.orange{
 }
 
 a.google {
-  width: 216px;
-  height: 42px;
+  width: 182px;
+  height: 40px;
   display: block;
   margin-left: -5px;
-  background: image-url('White-signin-Long-32dp/White-signin-Long-base-32dp.png');
+  background: image-url('google/google-login.png');
+  background-size: 182px 120px;
   &:hover {
-    background: image-url('White-signin-Long-32dp/White-signin-Long-hover-32dp.png');
+    background-position: 0px -40px;
   }
   &:active {
-    background: image-url('White-signin-Long-32dp/White-signin-Long-press-32dp.png');
+    background-position: 0px -80px;
   }
 }
 
