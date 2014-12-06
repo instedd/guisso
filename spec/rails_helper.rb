@@ -40,4 +40,19 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  def post_form(action_url, submit_button)
+    post_params = {}
+    assert_select "form[action=#{action_url}]" do |form|
+      assert_select "input[type=hidden]" do |input|
+        post_params = Hash[input.map {|i| [i.attributes["name"], i.attributes["value"]]}]
+      end
+
+      assert_select "input[name=#{submit_button}][type=submit]", 1 do |submit|
+        post_params[submit_button] = submit.first["value"]
+      end
+    end
+
+    post action_url, post_params
+  end
 end

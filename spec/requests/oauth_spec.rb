@@ -12,25 +12,23 @@ describe "OAuth" do
 
   describe "Authorization Code Grant" do
     describe "User Flow" do
+      before(:each) { post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => user.password }
+
       it "create authorization code" do
-        post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => user.password
-
         get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
-        post_params = {}
-        assert_select "form[action=#{create_authorization_path}]" do |form|
-          assert_select "input[type=hidden]" do |input|
-            post_params = Hash[input.map {|i| [i.attributes["name"], i.attributes["value"]]}]
-          end
+        post_form create_authorization_path, "approve"
 
-          assert_select "input[name=approve][type=submit]", 1 do |approve|
-            post_params["approve"] = approve.first["value"]
-          end
-        end
-
-        post create_authorization_path, post_params
         code = AuthorizationCode.last
         expect(code).not_to be_nil
         expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
+      end
+
+      it "include state in callback url" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}", state: "foo"
+        post_form create_authorization_path, "approve"
+
+        redirect_params = CGI.parse(URI.parse(response.redirect_url).query)
+        expect(redirect_params["state"]).to eq(["foo"])
       end
     end
 

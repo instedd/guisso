@@ -44,6 +44,7 @@ class Oauth2Controller < ApplicationController
       res.redirect_uri = @redirect_uri = req.redirect_uri #req.verify_redirect_uri!(@client.hostname)
 
       @scope = req.scope
+      @state = req.state
 
       @resource = nil
       req.scope.each do |scope|

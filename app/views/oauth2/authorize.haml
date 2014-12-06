@@ -9,6 +9,7 @@ is requiring your approval to access your data in
     = hidden_field_tag :scope, @scope
     = hidden_field_tag :response_type, @response_type
     = hidden_field_tag :redirect_uri, @redirect_uri
+    = hidden_field_tag :state, @state
 
     = submit_tag "Approve", name: :approve, class: 'btn btn-success'
     = submit_tag "Reject", class: 'btn btn-danger'
