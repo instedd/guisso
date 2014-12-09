@@ -36,7 +36,7 @@ class Oauth2::TokenEndpoint
           end
         end
 
-        unless user
+        unless app && resource && user
           req.invalid_grant!
         end
 
