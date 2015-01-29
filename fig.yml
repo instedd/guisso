@@ -1,0 +1,14 @@
+db:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+
+web:
+  build: .
+  environment:
+    RAILS_ENV: production
+    DATABASE_URL: mysql2://root:root@db/guisso
+  links:
+    - db
+  volumes:
+    - 'config/settings.yml:/app/config/settings.yml'
