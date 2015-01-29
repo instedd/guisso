@@ -1,4 +1,4 @@
-FROM nginx-rails-20
+FROM instedd/nginx-rails-20
 
 # Install gem bundle
 ADD Gemfile /app/
