@@ -3,12 +3,17 @@ db:
   environment:
     MYSQL_ROOT_PASSWORD: root
 
+smtp:
+  image: instedd/smtp-debug
+
 web:
   build: .
   environment:
     RAILS_ENV: production
     DATABASE_URL: mysql2://root:root@db/guisso
+    RAILS_CONFIG__action_mailer__smtp_settings__address: smtp
   links:
     - db
+    - smtp
   volumes:
     - 'config/settings.yml:/app/config/settings.yml'

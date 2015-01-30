@@ -23,6 +23,7 @@ gem 'newrelic_rpm'
 gem 'instedd-bootstrap', git: "https://bitbucket.org/instedd/instedd-bootstrap.git", branch: 'master'
 gem "instedd-rails", '>= 0.0.25'
 gem 'simple_form'
+gem 'env_rails'
 
 group :doc do
   gem 'sdoc', require: false
