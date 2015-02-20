@@ -1,5 +1,73 @@
+# GUISSO
+
 [![Build Status](https://travis-ci.org/instedd/guisso.svg?branch=master)](https://travis-ci.org/instedd/guisso)
 
-# README
+GUISSO (GUISSO Unveils InSTEDD Single Sign On) is an OpenID and OAuth server for the [InSTEDD](http://instedd.org) platform of applications. It is currently in use in [Hub](https://github.com/instedd/hub), [mBuilder](github.com/instedd/mbuilder), [ResourceMap](https://github.com/instedd/resourcemap), [Verboice](https://github.com/instedd/verboice) and [RemindEm](https://github.com/instedd/remindem), among others.
 
-_TBD_
+## OpenID
+
+GUISSO acts as an OpenID provider, using a local database of users (powered by [devise](https://github.com/plataformatec/devise)) or by using Google as OpenID provider. The suggested way to use GUISSO for login in your Rails application is via the [GUISSO Rails gem](https://github.com/instedd/alto_guisso_rails), which relies on devise to handle user login through GUISSO. Refer to the gem's [README](https://github.com/instedd/alto_guisso_rails/blob/master/README.md) for more info on the setup.
+
+GUISSO handles applications in the instedd.org domain differently, since no end-user confirmation is required by these applications when using GUISSO for authentication. Furthermore, GUISSO will also set a gem for the `*.instedd.org` domains with information on the current user; which is picked up by the GUISSO Rails gem to automatically log in and log out the current user, in order to implement seamless single sign on.
+
+## OAuth2
+
+GUISSO also acts as an OAuth2 authoriser. Both client applications and resource providers must be registered in GUISSO as Applications. Applications are globally identified by their hostname and port (the latter is included if and only if it is a non-standard port; so `mbuilder.instedd.org` and `local.instedd.org:3000` are valid, but `mbuilder.instedd.org:80` is not), and can be marked by an admin as **trusted**. Note that in order to act as a resource provider, an application must be trusted.
+
+### Ruby client
+
+OAuth2 client applications are recommended to use the [GUISSO Ruby client gem](https://github.com/instedd/alto_guisso) for making requests to resource providers using GUISSO as authorisation provider. Refer to the `GuissoRestClient` class for more information.
+
+A `config/guisso.yml` file is required with the URL to GUISSO and the client ID and secret; this file can be genereated directly from the application's configuration in GUISSO.
+
+### Rails server
+
+The [GUISSO Rails gem](https://github.com/instedd/alto_guisso_rails) provides an `authorize_api_user!` controller filter that can be set in API controllers to automatically handle token-authorized requests, validate them against GUISSO, and set the `current_user` variable accordingly.
+
+### Grant types
+
+OAuth2 specifies multiple grant types. Currently only _authorisation code_ and _client credentials_ are implemented in GUISSO, while _resource owner password credentials_ and _implicit_ are not yet implemented.
+
+#### Client credentials
+
+[Client credentials](https://tools.ietf.org/html/rfc6749#section-4.4) provides a way for trusted clients to access resources in resource providers via GUISSO. This is the recommended way for sharing data between InSTEDD applications.
+
+Note that in order to make use of client credentials, the client application must be registered as **trusted** in GUISSO. `GuissoRestClient` will automatically manage the token requests if the `trusted` option is specified. These tokens expire a few minutes after issued, but are automatically renewed by the client.
+
+The client application issues a request to the `oauth2/authorize` endpoint using its client ID and secret (stored in `config/guisso.yml` as genereated by GUISSO) and requesting access to an application (identified by its host) for a specific user (identified by email). GUISSO returns a MAC authorisation token that can be used for all requests to the API of the resource provider.
+
+The resource provider will validate the authenticity of the token against the `oauth2/trusted_token` endpoint, and obtain the user information to impersonate in return.
+
+#### Autorisation Code
+
+[Authorisation code](https://tools.ietf.org/html/rfc6749#section-4.1) is the standard authorisation method for OAauth2. In this scenario, the user must explicitly approve the client application for accessing his/her information in the resource provider via a browser-based interaction. After the approval, the token is issued, and the token verification flow proceeds as usual.
+
+Note that the authorization code expires after 15 minutes of being issued, and the refresh token flow is still not implemented in GUISSO or its clients.
+
+### Token types
+
+GUISSO supports two kind of tokens. **Bearer tokens** are plain tokens that can be used by any client to perform a request on behalf of a user, can be included as a header or part of the query string, and can be individually revokable. These tokens can be generated by a resource provider by issuing a request to GUISSO and then passed on to the clients.
+
+**MAC tokens** are more secure tokens which contain a token and a secret, and all requests to the resource provider include both the token and a signature using the secret. These tokens require a more complex client (`GuissoRestClient` easily supports them), but are far more secure than bearer tokens.
+
+### Basic auth validation
+
+GUISSO also provides an endpoint for validating a user's email and password. This is used by the GUISSO Rails gem when a request relies on basic auth for authentication, since the user's credentials are not stored locally by the resource provider but are present in GUISSO. This authentication method is strongly discouraged, and bearer tokens should be used if there is a need for a simple auth mechanism.
+
+## Development
+
+For local development of InSTEDD GUISSO-powered applications, either the [GUISSO staging server](login-stg.instedd.org) can be used, or a local instance. Note that since host and port is required to be unique, it is recommended to set a unique alias for localhost in `/etc/hosts` when registering them in staging, such as:
+
+```
+127.0.0.1	jdoe.mbuilder.instedd.org
+127.0.0.1	jdoe.hub.instedd.org
+```
+This practice is also recommended when running GUISSO locally.
+
+## Contributing
+
+1. Fork it ( https://github.com/[my-github-username]/guisso/fork )
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create a new Pull Request
