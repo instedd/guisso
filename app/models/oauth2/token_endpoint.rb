@@ -41,12 +41,22 @@ class Oauth2::TokenEndpoint
         end
 
         access_token = token_type.create! client_id: app.id, resource_id: resource.id, user_id: user.id, expires_at: expires_at
-        res.access_token = access_token.to_token
+        res.access_token = access_token.to_token(:with_refresh_token)
       when :authorization_code
         code = AuthorizationCode.valid.find_by_token(req.code)
         req.invalid_grant! if code.blank? || code.redirect_uri != req.redirect_uri
         token_type = req.params["token_type"] == "bearer" ? BearerAccessToken : MacAccessToken
-        res.access_token = code.create_access_token(token_type).to_token#(:with_refresh_token)
+        res.access_token = code.create_access_token(token_type).to_token(:with_refresh_token)
+      when :refresh_token
+        refresh_token = app.refresh_tokens.find_by_token(req.refresh_token)
+        req.invalid_grant! unless refresh_token
+        access_token = refresh_token.access_token
+        req.invalid_grant! unless access_token
+        new_access_token = access_token.class.create! client_id: access_token.client_id, resource_id: access_token.resource_id, user_id: access_token.user_id
+        res.access_token = new_access_token.to_token(:with_refresh_token)
+
+        access_token.destroy!
+        refresh_token.destroy!
       else
         req.unsupported_grant_type!
       end

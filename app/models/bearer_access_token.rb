@@ -5,9 +5,10 @@ class BearerAccessToken < AccessToken
       :expires_in => self.expires_in
     )
     if with_refresh_token
-      bearer_token.refresh_token = self.create_refresh_token(
-        :account => self.account,
-        :client => self.client
+      bearer_token.refresh_token = RefreshToken.create!(
+        :client_id => self.client_id,
+        :resource_id  => self.resource_id,
+        :access_token_id => self.id,
       ).token
     end
     bearer_token
@@ -15,18 +16,7 @@ class BearerAccessToken < AccessToken
 
   def as_json(options = nil)
     {
-      user: user.email,
+      user: user.email
     }
   end
-
-  # private
-
-  # def setup
-  #   super
-  #   if refresh_token
-  #     self.account = refresh_token.account
-  #     self.client = refresh_token.client
-  #     self.expires_at = [self.expires_at, refresh_token.expires_at].min
-  #   end
-  # end
 end

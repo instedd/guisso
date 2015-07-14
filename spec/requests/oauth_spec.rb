@@ -94,6 +94,30 @@ describe "OAuth" do
         response_body = JSON.parse(response.body)
         expect(response_body["error"]).to eq("invalid_grant")
       end
+
+      describe "refresh token" do
+        it "uses refresh token with bearer" do
+          post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, token_type: "bearer",
+                                redirect_uri: "http://myapp.com", grant_type: "authorization_code", code: code.token
+
+          response_token = JSON.parse(response.body)
+          refresh_token = response_token["refresh_token"]
+          expect(refresh_token).not_to be_nil
+
+          refresh_token = RefreshToken.find_by_token(refresh_token)
+          expect(refresh_token).not_to be_nil
+
+          post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "refresh_token",
+                                refresh_token: refresh_token.token
+
+          response_token = JSON.parse(response.body)
+          expect(response_token).not_to be_nil
+          expect(response_token["token_type"]).to eq("bearer")
+
+          expect(RefreshToken.count).to eq(1)
+          expect(AccessToken.count).to eq(1)
+        end
+      end
     end
   end
 end

@@ -6,6 +6,8 @@ class Application < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :refresh_tokens, :foreign_key => :client_id
+
   private
 
   def setup

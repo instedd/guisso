@@ -10,9 +10,10 @@ class MacAccessToken < AccessToken
       :expires_in    => self.expires_in
     )
     if with_refresh_token
-      mac_token.refresh_token = self.create_refresh_token(
-        :account => self.account,
-        :client  => self.client
+      mac_token.refresh_token = RefreshToken.create!(
+        :client_id => self.client_id,
+        :resource_id  => self.resource_id,
+        :access_token_id => self.id,
       ).token
     end
     mac_token
@@ -32,10 +33,5 @@ class MacAccessToken < AccessToken
     super
     self.algorithm = 'hmac-sha-256'
     self.secret = Oauth2::SecureToken.generate
-    # if refresh_token
-    #   self.account = refresh_token.account
-    #   self.client = refresh_token.client
-    #   self.expires_at = [self.expires_at, refresh_token.expires_at].min
-    # end
   end
 end
