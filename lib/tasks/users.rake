@@ -1,6 +1,17 @@
 namespace :users do
   desc "Import users from a CSV file"
   task :import, [:file] => :environment do |t, args|
+
+    # Generate CSV file using this SQL query
+    # SELECT 'email', 'password'
+    # UNION ALL
+    # SELECT email, encrypted_password
+    # FROM users
+    # INTO OUTFILE '/tmp/users.csv'
+    # FIELDS TERMINATED BY ','
+    # ENCLOSED BY '"'
+    # LINES TERMINATED BY '\n'
+
     file = args[:file]
     abort "Missing csv file. Please invoke the task like this: rake users:import[path_to_csv_file]" unless file.present?
 
