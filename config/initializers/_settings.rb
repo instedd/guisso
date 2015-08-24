@@ -2,6 +2,10 @@ module Guisso
   class Settings
     Config = YAML.load_file("#{Rails.root}/config/settings.yml")
 
+    def self.devise_confirmable
+      Config["devise_confirmable"]
+    end
+
     def self.devise_secret_key
       Config["devise_secret_key"]
     end
