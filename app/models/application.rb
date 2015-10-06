@@ -8,6 +8,8 @@ class Application < ActiveRecord::Base
 
   has_many :refresh_tokens, :foreign_key => :client_id
 
+  after_save :touch_user_lifespan
+
   private
 
   def setup

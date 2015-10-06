@@ -6,4 +6,6 @@ class AccessToken < ActiveRecord::Base
   belongs_to :resource, class_name: 'Application'
   belongs_to :client, class_name: 'Application'
   belongs_to :user
+
+  after_save :touch_user_lifespan
 end

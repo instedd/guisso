@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :authorization_codes, dependent: :destroy
   has_many :access_tokens, dependent: :destroy
 
+  after_save :touch_lifespan
+
   enumerated_attribute :role, %w(user admin) do
     label :user => 'User'
     label :admin => 'Administrator'
@@ -25,6 +27,12 @@ class User < ActiveRecord::Base
 
   def admin?
     role == :admin
+  end
+
+  private
+
+  def touch_lifespan
+    Telemetry::Lifespan.touch_user(self)
   end
 
 end
