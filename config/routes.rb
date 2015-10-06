@@ -1,6 +1,11 @@
 Guisso::Application.routes.draw do
   mount InsteddTelemetry::Engine => '/instedd_telemetry'
-  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', sessions: 'sessions', registrations: 'registrations'}
+  devise_for :users, controllers: {
+    omniauth_callbacks: 'omniauth_callbacks',
+    sessions: 'sessions',
+    registrations: 'registrations',
+    passwords: 'passwords'
+  }
 
   match 'openid/login'       => 'open_id#login',     via: [:get, :post]
   post  'openid/decision'    => 'open_id#decision'
