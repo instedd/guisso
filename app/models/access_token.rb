@@ -8,4 +8,11 @@ class AccessToken < ActiveRecord::Base
   belongs_to :user
 
   after_save :touch_user_lifespan
+  after_create :report_tool_usage
+
+  private
+
+  def report_tool_usage
+    Telemetry::ToolUsage.report(self.client, self.resource)
+  end
 end
