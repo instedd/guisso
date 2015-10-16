@@ -6,9 +6,10 @@ describe AccessToken do
   it 'reports tool usage' do
     client = Application.make!
     resource = Application.make!
+    access_token = AccessToken.create! client: client, resource: resource
 
     expect(Telemetry::ToolUsage).to receive(:report).with(client, resource)
 
-    AccessToken.create! client: client, resource: resource
+    access_token.report_tool_usage
   end
 end
