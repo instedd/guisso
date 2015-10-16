@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/instedd/telemetry_rails.git
-  revision: 5be5b1878c3c6c8b17620d7204148f8e1814e49f
+  revision: 69768e4f28253dd4510996191e8c7786af52f5f6
   specs:
     instedd_telemetry (0.0.1)
       global_phone
