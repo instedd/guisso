@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :access_tokens, dependent: :destroy
 
   after_save :touch_lifespan
+  after_destroy :touch_lifespan
 
   enumerated_attribute :role, %w(user admin) do
     label :user => 'User'

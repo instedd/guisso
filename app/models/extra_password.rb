@@ -35,6 +35,7 @@ class ExtraPassword < ActiveRecord::Base
   validates_presence_of :user, :email, :encrypted_password
 
   after_save :touch_user_lifespan
+  after_destroy :touch_user_lifespan
 
   def email
     user.email

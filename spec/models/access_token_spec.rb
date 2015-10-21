@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AccessToken do
-  include_examples "user lifespan", AccessToken
+  include_examples "user lifespan", described_class
 
   it 'reports tool usage' do
     client = Application.make!

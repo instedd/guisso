@@ -40,4 +40,5 @@ end
 group :test do
   gem 'machinist'
   gem 'ffaker'
+  gem 'timecop'
 end

@@ -17,4 +17,12 @@ RSpec.shared_examples "user lifespan" do |klass|
 
     record.save
   end
+
+  it 'should touch lifespan on destroy' do
+    record = klass.make! user: user
+
+    expect(Telemetry::Lifespan).to receive(:touch_user).with(user)
+
+    record.destroy
+  end
 end

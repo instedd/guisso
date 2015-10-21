@@ -17,4 +17,12 @@ describe User do
 
     user.save
   end
+
+  it 'should touch lifespan on destroy' do
+    user = User.make!
+
+    expect(Telemetry::Lifespan).to receive(:touch_user).with(user)
+
+    user.destroy
+  end
 end
