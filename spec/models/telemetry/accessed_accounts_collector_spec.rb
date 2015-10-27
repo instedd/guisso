@@ -11,9 +11,11 @@ describe Telemetry::AccessedAccountsCollector, telemetry: true do
     stats = Telemetry::AccessedAccountsCollector.collect_stats period
 
     expect(stats).to eq({
-      metric: 'accessed_accounts',
-      key: {},
-      value: 3
+      counters: [{
+        metric: 'accessed_accounts',
+        key: {},
+        value: 3
+      }]
     })
   end
 end

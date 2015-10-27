@@ -11,9 +11,11 @@ describe Telemetry::NewAccountsCollector, telemetry: true do
     stats = Telemetry::NewAccountsCollector.collect_stats period
 
     expect(stats).to eq({
-      metric: 'new_accounts',
-      key: {},
-      value: 3
+      counters: [{
+        metric: 'new_accounts',
+        key: {},
+        value: 3
+      }]
     })
   end
 end
