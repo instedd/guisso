@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151005141329) do
+ActiveRecord::Schema.define(version: 20151113150329) do
 
   create_table "access_tokens", force: true do |t|
     t.integer  "client_id"
@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(version: 20151005141329) do
   add_index "instedd_telemetry_settings", ["key"], name: "index_instedd_telemetry_settings_on_key", unique: true, using: :btree
 
   create_table "instedd_telemetry_timespans", force: true do |t|
-    t.integer  "period_id"
     t.string   "bucket"
     t.text     "key_attributes"
     t.datetime "since"
