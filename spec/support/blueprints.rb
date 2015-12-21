@@ -19,3 +19,9 @@ end
 
 AuthorizationCode.blueprint do
 end
+
+AccessToken.blueprint do
+end
+
+TrustedRoot.blueprint do
+end

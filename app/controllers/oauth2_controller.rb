@@ -19,6 +19,9 @@ class Oauth2Controller < ApplicationController
       return head :forbidden
     end
 
+    # Report to telemetry
+    access_token.report_tool_usage
+
     render json: access_token
   end
 

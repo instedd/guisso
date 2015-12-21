@@ -1,0 +1,3 @@
+server_url: http://localhost:3001
+period_size_hours: 1
+run_interval_minutes: 5

@@ -13,3 +13,7 @@ Warden::Manager.before_logout do |user, auth, opts|
     domain: "instedd.org"
   }
 end
+
+Warden::Manager.before_failure do |env, opts|
+  Telemetry::Auth.failed
+end

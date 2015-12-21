@@ -24,6 +24,7 @@ gem 'instedd-bootstrap', git: "https://bitbucket.org/instedd/instedd-bootstrap.g
 gem "instedd-rails", '>= 0.0.25'
 gem 'simple_form'
 gem 'env_rails'
+gem 'instedd_telemetry', git: 'https://github.com/instedd/telemetry_rails.git'
 
 group :doc do
   gem 'sdoc', require: false
@@ -39,4 +40,5 @@ end
 group :test do
   gem 'machinist'
   gem 'ffaker'
+  gem 'timecop'
 end
