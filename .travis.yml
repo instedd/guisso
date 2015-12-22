@@ -1,8 +1,8 @@
 language: ruby
-rvm:
-- 2.0.0
+cache: bundler
+bundler_args: --jobs=8 --without development production
 before_script:
-- bundle exec rake db:setup
-- bundle exec rake db:test:prepare
+  - bundle exec rake db:setup
+  - bundle exec rake db:test:prepare
 script:
-- bundle exec rspec
+  - bundle exec rspec
