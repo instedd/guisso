@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/instedd/telemetry_rails.git
-  revision: cc25f9b8bf6cbafa92f9012c72a9da7e5675d392
+  revision: b361d4cf3167a7184f77c678d77c517f5680f032
   specs:
     instedd_telemetry (0.0.1)
       global_phone
@@ -157,7 +157,7 @@ GEM
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     newrelic_rpm (3.9.6.257)
-    nokogiri (1.6.7.1)
+    nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
