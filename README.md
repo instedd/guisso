@@ -38,7 +38,7 @@ The client application issues a request to the `oauth2/authorize` endpoint using
 
 The resource provider will validate the authenticity of the token against the `oauth2/trusted_token` endpoint, and obtain the user information to impersonate in return.
 
-#### Autorisation Code
+#### Authorisation Code
 
 [Authorisation code](https://tools.ietf.org/html/rfc6749#section-4.1) is the standard authorisation method for OAauth2. In this scenario, the user must explicitly approve the client application for accessing his/her information in the resource provider via a browser-based interaction. After the approval, the token is issued, and the token verification flow proceeds as usual.
 
