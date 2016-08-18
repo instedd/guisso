@@ -1,17 +1,16 @@
 GIT
-  remote: https://bitbucket.org/instedd/instedd-bootstrap.git
-  revision: a440bd7b1ec1e5852032aeb3f948122be939b32b
+  remote: https://github.com/instedd/instedd-bootstrap.git
+  revision: f7677c0a25064c5feb9e199be739253ec8973b3a
   branch: master
   specs:
     instedd-bootstrap (0.0.1)
-      bootstrap-sass
       bootstrap-sass (~> 2.3.2)
       rails
       sass-rails
 
 GIT
   remote: https://github.com/instedd/telemetry_rails.git
-  revision: b361d4cf3167a7184f77c678d77c517f5680f032
+  revision: db0ef5c0e72b8a944befb7b9b88beedb876b296c
   specs:
     instedd_telemetry (0.0.1)
       global_phone
@@ -39,29 +38,29 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.0.12)
-      actionpack (= 4.0.12)
+    actionmailer (4.0.13)
+      actionpack (= 4.0.13)
       mail (~> 2.5, >= 2.5.4)
-    actionpack (4.0.12)
-      activesupport (= 4.0.12)
+    actionpack (4.0.13)
+      activesupport (= 4.0.13)
       builder (~> 3.1.0)
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    activemodel (4.0.12)
-      activesupport (= 4.0.12)
+    activemodel (4.0.13)
+      activesupport (= 4.0.13)
       builder (~> 3.1.0)
-    activerecord (4.0.12)
-      activemodel (= 4.0.12)
+    activerecord (4.0.13)
+      activemodel (= 4.0.13)
       activerecord-deprecated_finders (~> 1.0.2)
-      activesupport (= 4.0.12)
+      activesupport (= 4.0.13)
       arel (~> 4.0.0)
-    activerecord-deprecated_finders (1.0.3)
+    activerecord-deprecated_finders (1.0.4)
     activerecord-session_store (0.1.0)
       actionpack (>= 4.0.0, < 5)
       activerecord (>= 4.0.0, < 5)
       railties (>= 4.0.0, < 5)
-    activesupport (4.0.12)
+    activesupport (4.0.13)
       i18n (~> 0.6, >= 0.6.9)
       minitest (~> 4.2)
       multi_json (~> 1.3)
@@ -124,7 +123,7 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     httpclient (2.5.2)
-    i18n (0.6.11)
+    i18n (0.7.0)
     instedd-rails (0.0.25)
       breadcrumbs_on_rails (>= 2.2.0)
       haml-rails
@@ -135,17 +134,19 @@ GEM
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.1)
+    json (1.8.3)
     jwt (1.2.0)
     machinist (2.0)
-    mail (2.6.3)
-      mime-types (>= 1.16, < 3)
+    mail (2.6.4)
+      mime-types (>= 1.16, < 4)
     meta_programming (0.2.2)
     method_source (0.8.2)
-    mime-types (2.4.3)
-    mini_portile2 (2.0.0)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
+    mini_portile2 (2.1.0)
     minitest (4.7.5)
-    multi_json (1.10.1)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.16)
@@ -157,8 +158,9 @@ GEM
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     newrelic_rpm (3.9.6.257)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -180,6 +182,8 @@ GEM
       omniauth (~> 1.0)
       rack-openid (~> 1.3.1)
     orm_adapter (0.5.0)
+    pkg-config (1.1.7)
+    power_assert (0.3.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -189,26 +193,29 @@ GEM
       pry (~> 0.10)
     puma (2.11.0)
       rack (>= 1.1, < 2.0)
-    rack (1.5.2)
+    rack (1.5.5)
     rack-openid (1.3.1)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
-    rack-test (0.6.2)
+    rack-test (0.6.3)
       rack (>= 1.0)
-    rails (4.0.12)
-      actionmailer (= 4.0.12)
-      actionpack (= 4.0.12)
-      activerecord (= 4.0.12)
-      activesupport (= 4.0.12)
+    rails (4.0.13)
+      actionmailer (= 4.0.13)
+      actionpack (= 4.0.13)
+      activerecord (= 4.0.13)
+      activesupport (= 4.0.13)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.0.12)
+      railties (= 4.0.13)
       sprockets-rails (~> 2.0)
-    railties (4.0.12)
-      actionpack (= 4.0.12)
-      activesupport (= 4.0.12)
+    rails-dev-tweaks (1.2.0)
+      actionpack (>= 3.1)
+      railties (>= 3.1)
+    railties (4.0.13)
+      actionpack (= 4.0.13)
+      activesupport (= 4.0.13)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.4.2)
+    rake (11.2.2)
     rdoc (4.1.2)
       json (~> 1.4)
     rspec-core (3.1.7)
@@ -248,15 +255,17 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.2.2)
+    sprockets-rails (2.3.3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    test-unit (3.2.1)
+      power_assert
     thor (0.19.1)
-    thread_safe (0.3.4)
+    thread_safe (0.3.5)
     tilt (1.4.1)
     timecop (0.8.0)
-    tzinfo (0.3.42)
+    tzinfo (0.3.51)
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -292,11 +301,16 @@ DEPENDENCIES
   puma
   rack-oauth2!
   rails (~> 4.0.0)
+  rails-dev-tweaks (~> 1.1)
   rspec-rails
   ruby-openid
   rvm-capistrano
   sass-rails (~> 4.0.0)
   sdoc
   simple_form
+  test-unit
   timecop
   uglifier (>= 1.3.0)
+
+BUNDLED WITH
+   1.12.5

@@ -20,7 +20,7 @@ gem 'rack-oauth2', git: 'https://github.com/manastech/rack-oauth2.git'
 gem 'cancan'
 gem 'enumerated_attribute', :git => "https://github.com/ssendev/enumerated_attribute.git"
 gem 'newrelic_rpm'
-gem 'instedd-bootstrap', git: "https://bitbucket.org/instedd/instedd-bootstrap.git", branch: 'master'
+gem 'instedd-bootstrap', git: "https://github.com/instedd/instedd-bootstrap.git", branch: 'master'
 gem "instedd-rails", '>= 0.0.25'
 gem 'simple_form'
 gem 'env_rails'
@@ -32,9 +32,11 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'test-unit'
   gem 'pry-byebug'
   gem 'capistrano'
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', require: false
+  gem 'rails-dev-tweaks', '~> 1.1'
 end
 
 group :test do
