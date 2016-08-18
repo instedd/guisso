@@ -19,12 +19,15 @@ class MacAccessToken < AccessToken
     mac_token
   end
 
+  def token_type
+    "mac"
+  end
+
   def as_json(options = nil)
-    {
-      mac_key: secret,
-      mac_algorithm: algorithm,
-      user: user.email,
-    }
+    super.tap do |json|
+      json[:mac_key] = secret
+      json[:mac_algorithm] = algorithm
+    end
   end
 
   private

@@ -13,4 +13,20 @@ class AccessToken < ActiveRecord::Base
   def report_tool_usage
     Telemetry::ToolUsage.report(self.client, self.resource)
   end
+
+  def as_json(options = nil)
+    {
+      user: user.email,
+      expires_at: expires_at,
+      token_type: token_type,
+      resource: {
+        name: resource.name,
+        client_id: resource.identifier
+      },
+      client: {
+        name: client.name,
+        client_id: client.identifier
+      }
+    }
+  end
 end

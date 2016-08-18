@@ -23,5 +23,8 @@ end
 AccessToken.blueprint do
 end
 
+BearerAccessToken.blueprint do
+end
+
 TrustedRoot.blueprint do
 end

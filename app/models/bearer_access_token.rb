@@ -14,9 +14,7 @@ class BearerAccessToken < AccessToken
     bearer_token
   end
 
-  def as_json(options = nil)
-    {
-      user: user.email
-    }
+  def token_type
+    "bearer"
   end
 end
