@@ -10,10 +10,6 @@ class Oauth2::TokenEndpoint
       app = Application.find_by(identifier: req.client_id, secret: req.client_secret) or req.invalid_client!
       case req.grant_type
       when :client_credentials
-        unless app.trusted
-          req.invalid_grant!
-        end
-
         resource = app
         user = nil
         token_type = MacAccessToken
@@ -22,6 +18,9 @@ class Oauth2::TokenEndpoint
           key, value = scope.split '=', 2
           case key
           when 'app'
+            unless app.trusted
+              req.invalid_grant!
+            end
             resource = Application.find_by(hostname: value)
           when 'user'
             user = User.find_by(email: value)

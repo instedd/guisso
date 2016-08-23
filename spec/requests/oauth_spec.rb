@@ -120,4 +120,35 @@ describe "OAuth" do
       end
     end
   end
+
+  describe "Client Credentials Grant" do
+    it "trusted client gets token with default options" do
+      client_app.trusted = true
+      client_app.save!
+
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "client_credentials",
+                            scope: "user=#{user.email} app=#{resource_app.hostname}"
+
+      response_token = JSON.parse(response.body)
+      expect(response_token["token_type"]).to eq("mac")
+      expect(response_token["expires_in"]).to be <= 15.minutes
+    end
+
+    it "non trusted client should not get a token" do
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "client_credentials",
+                            scope: "user=#{user.email} app=#{resource_app.hostname}"
+
+      expect(response).to have_http_status(400)
+    end
+
+    it "non trusted client can get token to access itself" do
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "client_credentials",
+                            scope: "user=#{user.email}"
+
+      response_token = JSON.parse(response.body)
+      expect(response).to be_successful
+      token = AccessToken.find_by_token!(response_token["access_token"])
+      expect(token.resource_id).to eq(client_app.id)
+    end
+  end
 end
