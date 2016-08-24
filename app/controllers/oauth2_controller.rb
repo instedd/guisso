@@ -9,7 +9,7 @@ class Oauth2Controller < ApplicationController
   end
 
   def trusted_token
-    resource = Application.find_by(identifier: params[:identifier], secret: params[:secret], trusted: true)
+    resource = Application.find_by(identifier: params[:identifier], secret: params[:secret])
     unless resource
       return head :forbidden
     end

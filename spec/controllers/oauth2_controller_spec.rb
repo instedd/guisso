@@ -4,8 +4,8 @@ describe Oauth2Controller do
   describe '#GET trusted token' do
     describe 'telemetry' do
       let!(:user) { User.make! }
-      let!(:resource) { Application.make! trusted: true }
-      let!(:client) { Application.make! trusted: true }
+      let!(:resource) { Application.make! }
+      let!(:client) { Application.make! }
       let!(:access_token) { BearerAccessToken.make! client: client, resource: resource, user: user }
 
       it 'reports tool usage when validating token' do
