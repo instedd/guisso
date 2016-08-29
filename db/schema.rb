@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311190127) do
+ActiveRecord::Schema.define(version: 20160829220752) do
 
   create_table "access_tokens", force: true do |t|
     t.integer  "client_id"
@@ -48,6 +48,14 @@ ActiveRecord::Schema.define(version: 20160311190127) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "authorizations", force: true do |t|
+    t.integer "client_id"
+    t.integer "resource_id"
+    t.integer "user_id"
+  end
+
+  add_index "authorizations", ["user_id", "client_id", "resource_id"], name: "index_authorizations_on_user_id_and_client_id_and_resource_id", unique: true, using: :btree
 
   create_table "extra_passwords", force: true do |t|
     t.integer  "user_id"

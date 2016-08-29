@@ -23,8 +23,9 @@ Guisso::Application.routes.draw do
   get 'home' => 'home#index'
 
   resources :trusted_roots
+  resources :authorizations
   resources :applications
   resources :access_tokens, only: [:index, :destroy]
 
-  root to: 'trusted_roots#index'
+  root to: 'authorizations#index'
 end

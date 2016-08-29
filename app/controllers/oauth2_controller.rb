@@ -48,6 +48,7 @@ class Oauth2Controller < ApplicationController
 
       @scope = req.scope
       @state = req.state
+      @response_type = req.response_type
 
       @resource = nil
       req.scope.each do |scope|
@@ -62,22 +63,31 @@ class Oauth2Controller < ApplicationController
         req.bad_request!
       end
 
-      if allow_approval
-        if params[:approve]
-          case req.response_type
-          when :code
-            authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s)
-            res.code = authorization_code.token
-          # when :token
-          #   res.access_token = current_user.access_tokens.create(:client_id => @client).to_token
-          end
-          res.approve!
-        else
-          req.access_denied!
+      if approved?(allow_approval)
+        case req.response_type
+        when :code
+          authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s)
+          @authorization ||= current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id)
+          res.code = authorization_code.token
+        # when :token
+        #   res.access_token = current_user.access_tokens.create(:client_id => @client).to_token
         end
-      else
-        @response_type = req.response_type
+        res.approve!
+      end
+
+      if denied?(allow_approval)
+        req.access_denied!
       end
     end
+  end
+
+  def approved?(allow_approval)
+    return true if allow_approval && params[:approve]
+    @authorization = current_user.authorizations.find_by(client: @client, resource: @resource)
+    return @authorization != nil
+  end
+
+  def denied?(allow_approval)
+    allow_approval && !params[:approve]
   end
 end

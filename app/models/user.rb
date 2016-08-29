@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :applications, dependent: :destroy
   has_many :authorization_codes, dependent: :destroy
   has_many :access_tokens, dependent: :destroy
+  has_many :authorizations, dependent: :destroy
 
   after_save :touch_lifespan
   after_destroy :touch_lifespan

@@ -1,0 +1,15 @@
+%h3 Your authorizations
+
+%ul
+  - @trusted_roots.each do |trusted_root|
+    %li
+      = trusted_root.url
+      (login)
+      = link_to 'revoke access', trusted_root, method: :delete, confirm: "Are you sure you want to revoke the access to '#{trusted_root.url}'?"
+
+  - @authorizations.each do |authorization|
+    %li
+      = authorization.client.name
+      &rarr;
+      = authorization.resource.name
+      = link_to 'revoke access', authorization, method: :delete, confirm: "Are you sure you want to revoke the access from '#{authorization.client.name}' to '#{authorization.resource.name}'?"

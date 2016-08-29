@@ -12,12 +12,12 @@
 
 - top_nav_bar do
   - unless current_user.nil?
-    - top_nav_bar_item "Authorizations", trusted_roots_path, params[:controller] == "trusted_roots"
+    - top_nav_bar_item "Authorizations", authorizations_path, params[:controller] == "authorizations"
     - top_nav_bar_item "Tokens", access_tokens_path, params[:controller] == "access_tokens"
     - top_nav_bar_item "Applications", applications_path, params[:controller] == "applications"
 
 - if current_user.nil?
   - add_body_class "noheader centred"
 = render template: 'instedd/application_smallfooter'
-  
+
 = telemetry_warning

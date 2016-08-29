@@ -19,7 +19,21 @@ describe "OAuth" do
         post_form create_authorization_path, "approve"
 
         code = AuthorizationCode.last
+        authorization = Authorization.last
         expect(code).not_to be_nil
+        expect(authorization).not_to be_nil
+        expect(authorization.client_id).to eq(client_app.id)
+        expect(authorization.resource_id).to eq(resource_app.id)
+        expect(authorization.user_id).to eq(user.id)
+        expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
+      end
+
+      it "authorizes implicitly the second time" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
+        code = AuthorizationCode.last
         expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
       end
 
