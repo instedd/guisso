@@ -165,4 +165,23 @@ describe "OAuth" do
       expect(token.resource_id).to eq(client_app.id)
     end
   end
+
+  describe "Implicit Grant" do
+    before(:each) { post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => user.password }
+
+    it "creates token" do
+      get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "token", scope: "app=#{resource_app.hostname}"
+      post_form create_authorization_path, "approve"
+
+      token = AccessToken.last
+      authorization = Authorization.last
+      expect(token).not_to be_nil
+      expect(token.token_type).to eq("bearer")
+      expect(authorization).not_to be_nil
+      expect(authorization.client_id).to eq(client_app.id)
+      expect(authorization.resource_id).to eq(resource_app.id)
+      expect(authorization.user_id).to eq(user.id)
+      expect(response).to redirect_to("http://myapp.com#access_token=#{token.token}&expires_in=3599&token_type=bearer")
+    end
+  end
 end

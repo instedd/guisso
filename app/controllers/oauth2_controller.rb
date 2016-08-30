@@ -66,13 +66,16 @@ class Oauth2Controller < ApplicationController
       end
 
       if approved?(allow_approval)
+        @authorization ||= current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id)
         case req.response_type
         when :code
           authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s)
-          @authorization ||= current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id)
           res.code = authorization_code.token
-        # when :token
-        #   res.access_token = current_user.access_tokens.create(:client_id => @client).to_token
+        when :token
+          token = current_user.access_tokens.create(client_id: @client.id, resource_id: @resource.id, type: "BearerAccessToken", expires_at: 1.hour.from_now)
+          res.access_token = token.to_token
+        else
+          req.bad_request!
         end
         res.approve!
       end
