@@ -5,8 +5,8 @@ class Application < ActiveRecord::Base
   validates :hostname, :presence => true, :uniqueness => true
 
   belongs_to :user
-
   has_many :refresh_tokens, :foreign_key => :client_id
+  serialize :redirect_uris, Array
 
   after_save :touch_user_lifespan
   after_destroy :touch_user_lifespan

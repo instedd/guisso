@@ -5,6 +5,8 @@ class Oauth2Controller < ApplicationController
     if @redirect_uri.present?
       char = @redirect_uri.query ? '&' : '?'
       redirect_to "#{@redirect_uri}#{char}error=#{e.error}"
+    else
+      head :bad_request
     end
   end
 
@@ -44,7 +46,7 @@ class Oauth2Controller < ApplicationController
   def authorize_endpoint(allow_approval = false)
     Rack::OAuth2::Server::Authorize.new do |req, res|
       @client = Application.find_by(identifier: req.client_id) or req.bad_request!
-      res.redirect_uri = @redirect_uri = req.redirect_uri #req.verify_redirect_uri!(@client.hostname)
+      res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uris)
 
       @scope = req.scope
       @state = req.state

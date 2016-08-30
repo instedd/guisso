@@ -42,7 +42,9 @@ class ApplicationsController < ApplicationController
     options = [:name, :hostname]
     options.push :trusted if current_user.admin?
 
-    params.require(:application).permit(*options)
+    params.require(:application).permit(*options).tap do |whitelisted|
+      whitelisted[:redirect_uris] = params[:application][:redirect_uris].split
+    end
   end
 
   def load_application

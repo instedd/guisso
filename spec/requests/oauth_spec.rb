@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "OAuth" do
-  let(:client_app) { Application.make! }
+  let(:client_app) { Application.make! redirect_uris: ["http://myapp.com"] }
   let(:resource_app) { Application.make! }
   let(:user) { User.make! }
 
