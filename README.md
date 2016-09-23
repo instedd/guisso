@@ -64,6 +64,19 @@ For local development of InSTEDD GUISSO-powered applications, either the [GUISSO
 ```
 This practice is also recommended when running GUISSO locally.
 
+## Docker development
+
+`docker-compose.yml` file build a development environment mounting the current folder and running rails in development environment.
+
+Run the following commands to have a stable development environment.
+
+```
+$ docker-compose run --rm --no-deps web bundle install
+$ docker-compose run --rm web bash
+root@web_1 $ rake db:setup db:seed
+$ docker-compose up
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/guisso/fork )
