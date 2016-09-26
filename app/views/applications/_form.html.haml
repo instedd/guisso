@@ -14,7 +14,7 @@
     = f.text_field :hostname
   .field
     = f.label :redirect_uris
-    = f.text_area :redirect_uris, rows: 3, value: @application.redirect_uris.join('\n')
+    = f.text_area :redirect_uris, rows: 3, value: @application.redirect_uris.join("\n")
   - if can? :create_trusted, Application
     .field
       = f.check_box :trusted
