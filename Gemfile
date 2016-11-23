@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'puma'
+gem 'puma', '~> 3.0.2'
 gem 'rails', '~> 4.0.0'
 gem 'mysql2'
 gem 'sass-rails', '~> 4.0.0'
@@ -25,6 +25,7 @@ gem "instedd-rails", '>= 0.0.25'
 gem 'simple_form'
 gem 'env_rails'
 gem 'instedd_telemetry', git: 'https://github.com/instedd/telemetry_rails.git'
+gem 'io-console'
 
 group :doc do
   gem 'sdoc', require: false
