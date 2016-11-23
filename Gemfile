@@ -32,8 +32,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'test-unit'
   gem 'pry-byebug'
-  gem 'capistrano'
-  gem 'rvm-capistrano', require: false
+  gem 'capistrano',         '~> 3.6', :require => false
+  gem 'capistrano-rails',   '~> 1.2', :require => false
+  gem 'capistrano-bundler', '~> 1.2', :require => false
   gem 'rails-dev-tweaks', '~> 1.1'
 end
 

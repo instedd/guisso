@@ -1,40 +1,36 @@
-require 'bundler/capistrano'
-require 'rvm/capistrano'
+# config valid only for current version of Capistrano
+lock '3.6.1'
 
-set :rvm_ruby_string, '2.0.0-p353'
-set :rvm_type, :system
-set :application, "guisso"
-set :repository,  "https://github.com/instedd/guisso"
+set :application, 'guisso'
+set :repo_url, 'git@github.com:instedd/guisso.git'
+
+ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+
+set :deploy_to, "/u/apps/#{fetch(:application)}"
 set :scm, :git
-set :user, 'ubuntu'
-set :group, 'ubuntu'
-set :deploy_via, :remote_cache
+set :format, :airbrussh
+set :pty, true
+set :keep_releases, 5
+set :rails_env, :production
+set :migration_role, :app
 
-default_run_options[:pty] = true
-default_environment['TERM'] = ENV['TERM']
+# Default value for :linked_files is []
+append :linked_files, 'config/database.yml', 'config/newrelic.yml', 'config/settings.yml'
 
-after "deploy", "deploy:cleanup" # keep only the last 5 releases
+# Default value for linked_dirs is []
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache'
 
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
+# Name for the exported service
+set :service_name, fetch(:application)
 
-  task :symlink_configs, :roles => :app do
-    %W(database.yml settings.yml newrelic.yml telemetry.yml).each do |file|
-      run "test -e #{shared_path}/#{file} && ln -nfs #{shared_path}/#{file} #{release_path}/config/ || true"
+namespace :service do
+  task :safe_restart do
+    on roles(:app) do
+      execute "sudo stop #{fetch(:service_name)} ; sudo start #{fetch(:service_name)}"
     end
-  end
-
-  task :generate_version, :roles => :app do
-    run "cd #{release_path} && git describe --always > #{release_path}/VERSION"
   end
 end
 
-before "deploy:start", "deploy:migrate"
-before "deploy:restart", "deploy:migrate"
-
-after "deploy:update_code", "deploy:symlink_configs"
-after "deploy:update_code", "deploy:generate_version"
+namespace :deploy do
+  after :restart, "service:safe_restart"
+end
