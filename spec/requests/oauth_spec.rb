@@ -127,9 +127,10 @@ describe "OAuth" do
           response_token = JSON.parse(response.body)
           expect(response_token).not_to be_nil
           expect(response_token["token_type"]).to eq("bearer")
+          expect(response_token["refresh_token"]).to eq(refresh_token.token)
 
           expect(RefreshToken.count).to eq(1)
-          expect(AccessToken.count).to eq(1)
+          expect(AccessToken.count).to eq(2)
         end
       end
     end

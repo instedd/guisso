@@ -52,10 +52,8 @@ class Oauth2::TokenEndpoint
         access_token = refresh_token.access_token
         req.invalid_grant! unless access_token
         new_access_token = access_token.class.create! client_id: access_token.client_id, resource_id: access_token.resource_id, user_id: access_token.user_id
-        res.access_token = new_access_token.to_token(:with_refresh_token)
-
-        access_token.destroy!
-        refresh_token.destroy!
+        res.access_token = new_access_token.to_token
+        res.access_token.refresh_token = refresh_token.token
       else
         req.unsupported_grant_type!
       end
