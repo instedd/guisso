@@ -20,17 +20,29 @@ append :linked_files, 'config/database.yml', 'config/newrelic.yml', 'config/sett
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache'
 
-# Name for the exported service
-set :service_name, fetch(:application)
-
 namespace :service do
-  task :safe_restart do
+  task :restart do
     on roles(:app) do
-      execute "sudo stop #{fetch(:service_name)} ; sudo start #{fetch(:service_name)}"
+      if fetch(:service_name) && fetch(:service_name).size != 0
+        execute "sudo stop #{fetch(:service_name)} ; sudo start #{fetch(:service_name)}"
+      else
+        execute "sudo touch #{release_path}/tmp/restart.txt"
+      end
     end
   end
 end
 
 namespace :deploy do
-  after :restart, "service:safe_restart"
+  after :publishing, :restart
+  after :restart, "service:restart"
+
+  after :updated, :export_version do
+    on roles(:app) do
+      within release_path do
+        version = capture "git --git-dir #{repo_path} describe --tags #{fetch(:current_revision)}"
+        execute :echo, "#{version} > VERSION"
+      end
+    end
+  end
+
 end

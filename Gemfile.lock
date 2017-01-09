@@ -95,6 +95,9 @@ GEM
     capistrano-rails (1.2.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -286,6 +289,7 @@ DEPENDENCIES
   capistrano (~> 3.6)
   capistrano-bundler (~> 1.2)
   capistrano-rails (~> 1.2)
+  capistrano-rvm
   coffee-rails (~> 4.0.0)
   devise (= 3.1.0)
   enumerated_attribute!

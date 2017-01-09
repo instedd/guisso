@@ -35,6 +35,7 @@ group :development, :test do
   gem 'capistrano',         '~> 3.6', :require => false
   gem 'capistrano-rails',   '~> 1.2', :require => false
   gem 'capistrano-bundler', '~> 1.2', :require => false
+  gem 'capistrano-rvm',               :require => false
   gem 'rails-dev-tweaks', '~> 1.1'
 end
 
