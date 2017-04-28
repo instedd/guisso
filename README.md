@@ -56,7 +56,7 @@ GUISSO also provides an endpoint for validating a user's email and password. Thi
 
 ## Development
 
-For local development of InSTEDD GUISSO-powered applications, either the [GUISSO staging server](login-stg.instedd.org) can be used, or a local instance. Note that since host and port is required to be unique, it is recommended to set a unique alias for localhost in `/etc/hosts` when registering them in staging, such as:
+For local development of InSTEDD GUISSO-powered applications, either the [GUISSO staging server](https://login-stg.instedd.org) can be used, or a local instance. Note that since host and port is required to be unique, it is recommended to set a unique alias for localhost in `/etc/hosts` when registering them in staging, such as:
 
 ```
 127.0.0.1	jdoe.mbuilder.instedd.org
