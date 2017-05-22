@@ -13,7 +13,7 @@ gem 'omniauth'
 gem 'omniauth-openid'
 gem 'omniauth-google-oauth2'
 gem 'activerecord-session_store'
-gem 'rack-oauth2', '~> 1.6.2'
+gem 'rack-oauth2', :git => "https://github.com/instedd/rack-oauth2.git", branch: "feature/openid-connect"
 gem 'cancan'
 gem 'enumerated_attribute', :git => "https://github.com/ssendev/enumerated_attribute.git"
 gem 'newrelic_rpm'

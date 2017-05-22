@@ -41,6 +41,7 @@ describe Oauth2Controller do
         expect(auth_code).to_not be_nil
         expect(auth_code.client_id).to eq(client.id)
         expect(auth_code.resource_id).to eq(client.id)
+        expect(auth_code.scope).to eq("openid")
       end
     end
   end

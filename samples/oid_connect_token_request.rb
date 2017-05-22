@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rack/oauth2'
+require 'jwt'
 
 YOUR_CLIENT_ID = "rXKiLsGY8OFQaYUZmf8pZw"
 YOUR_CLIENT_SECRET = "zVwjKUL8iBc9PCpYgH9hzEkG38v6RTVokNg34r2kcH4"
@@ -26,7 +27,10 @@ when :authorization_code
 end
 
 begin
-  p client.access_token!
+  token = client.access_token!
+  p token.access_token
+  p token.id_token
+  p JWT.decode(token.id_token, nil, false)
 rescue => e
   p e
 end
