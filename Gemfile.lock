@@ -18,17 +18,6 @@ GIT
       rails
 
 GIT
-  remote: https://github.com/manastech/rack-oauth2.git
-  revision: 192e4d020a84432179297deb035f9716d4bf6622
-  specs:
-    rack-oauth2 (1.0.5)
-      activesupport (>= 2.3)
-      attr_required (>= 0.0.5)
-      httpclient (>= 2.2.0.2)
-      multi_json (>= 1.3.6)
-      rack (>= 1.1)
-
-GIT
   remote: https://github.com/ssendev/enumerated_attribute.git
   revision: 3c94b814c184564a20b90c237ddb82f0260885af
   specs:
@@ -69,7 +58,7 @@ GEM
     airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (4.0.2)
-    attr_required (1.0.0)
+    attr_required (1.0.1)
     bcrypt (3.1.9)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
@@ -133,7 +122,7 @@ GEM
       railties (>= 4.0.1)
     hashie (3.3.1)
     hike (1.2.3)
-    httpclient (2.5.2)
+    httpclient (2.8.3)
     i18n (0.7.0)
     instedd-rails (0.0.25)
       breadcrumbs_on_rails (>= 2.2.0)
@@ -161,7 +150,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.3.16)
+    mysql2 (0.3.21)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
@@ -201,6 +190,12 @@ GEM
       pry (~> 0.10)
     puma (3.0.2)
     rack (1.5.5)
+    rack-oauth2 (1.6.2)
+      activesupport (>= 2.3)
+      attr_required (>= 0.0.5)
+      httpclient (>= 2.4)
+      multi_json (>= 1.3.6)
+      rack (>= 1.1)
     rack-openid (1.3.1)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
@@ -304,14 +299,14 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   machinist
-  mysql2
+  mysql2 (~> 0.3.21)
   newrelic_rpm
   omniauth
   omniauth-google-oauth2
   omniauth-openid
   pry-byebug
   puma (~> 3.0.2)
-  rack-oauth2!
+  rack-oauth2 (~> 1.6.2)
   rails (~> 4.0.0)
   rails-dev-tweaks (~> 1.1)
   rspec-rails

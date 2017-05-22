@@ -5,6 +5,7 @@ Application.blueprint do
   hostname { Faker::Internet.domain_name }
   identifier { Oauth2::SecureToken.generate(16) }
   secret { Oauth2::SecureToken.generate }
+  redirect_uris { ["http://#{Faker::Internet.domain_name}/callback"] }
 end
 
 User.blueprint do

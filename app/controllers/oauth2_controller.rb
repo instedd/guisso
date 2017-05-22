@@ -58,6 +58,8 @@ class Oauth2Controller < ApplicationController
         case key
         when 'app'
           @resource = Application.find_by(hostname: value)
+        when 'openid'
+          @resource = @client
         end
       end
 
