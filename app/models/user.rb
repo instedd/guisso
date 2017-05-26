@@ -31,6 +31,22 @@ class User < ActiveRecord::Base
     role == :admin
   end
 
+  def create_openid_token_for(app)
+    # See http://openid.net/specs/openid-connect-core-1_0.html#IDToken
+    payload = {
+      # TODO: set the issuer to the actual Guisso domain
+      iss: "login.instedd.org",
+      sub: id.to_s,
+      aud: app.identifier,
+      email: email,
+      exp: 5.minutes.from_now.to_i,
+      iat: Time.now.to_i
+    }
+
+    # TODO: sign the token
+    JWT.encode payload, nil, 'none'
+  end
+
   private
 
   def touch_lifespan

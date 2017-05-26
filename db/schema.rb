@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830144329) do
+ActiveRecord::Schema.define(version: 20170522171251) do
 
   create_table "access_tokens", force: true do |t|
     t.integer  "client_id"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20160830144329) do
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "scope"
   end
 
   create_table "authorizations", force: true do |t|

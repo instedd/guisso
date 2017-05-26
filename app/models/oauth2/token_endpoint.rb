@@ -46,6 +46,9 @@ class Oauth2::TokenEndpoint
         req.invalid_grant! if code.blank? || code.redirect_uri != req.redirect_uri
         token_type = req.params["token_type"] == "bearer" ? BearerAccessToken : MacAccessToken
         res.access_token = code.create_access_token(token_type).to_token(:with_refresh_token)
+        if code.scope && code.scope.split(/\s+/).include?('openid')
+          res.access_token.id_token = code.user.create_openid_token_for(Application.find(code.client_id))
+        end
       when :refresh_token
         refresh_token = app.refresh_tokens.find_by_token(req.refresh_token)
         req.invalid_grant! unless refresh_token

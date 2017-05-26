@@ -2,8 +2,8 @@ version: '2.0'
 
 services:
   web:
-    image: instedd/nginx-rails:2.3
-    command: rails server -b 0.0.0.0 -p 80
+    image: ruby:2.0.0-p648
+    command: rails server
     environment:
       RAILS_ENV:
       DATABASE_HOST: 'db'
@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
     ports:
-      - 3001:80
+      - 3001:3000
 
   db:
     image: mysql:5.6

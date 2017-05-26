@@ -9,6 +9,18 @@ GIT
       sass-rails
 
 GIT
+  remote: https://github.com/instedd/rack-oauth2.git
+  revision: 0627f943b875ffca31cbcda2ac0c96422c95ca76
+  branch: feature/openid-connect
+  specs:
+    rack-oauth2 (1.6.2)
+      activesupport (>= 2.3)
+      attr_required (>= 0.0.5)
+      httpclient (>= 2.4)
+      multi_json (>= 1.3.6)
+      rack (>= 1.1)
+
+GIT
   remote: https://github.com/instedd/telemetry_rails.git
   revision: db0ef5c0e72b8a944befb7b9b88beedb876b296c
   specs:
@@ -16,17 +28,6 @@ GIT
       global_phone
       global_phone_dbgen
       rails
-
-GIT
-  remote: https://github.com/manastech/rack-oauth2.git
-  revision: 192e4d020a84432179297deb035f9716d4bf6622
-  specs:
-    rack-oauth2 (1.0.5)
-      activesupport (>= 2.3)
-      attr_required (>= 0.0.5)
-      httpclient (>= 2.2.0.2)
-      multi_json (>= 1.3.6)
-      rack (>= 1.1)
 
 GIT
   remote: https://github.com/ssendev/enumerated_attribute.git
@@ -69,7 +70,7 @@ GEM
     airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (4.0.2)
-    attr_required (1.0.0)
+    attr_required (1.0.1)
     bcrypt (3.1.9)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
@@ -133,7 +134,7 @@ GEM
       railties (>= 4.0.1)
     hashie (3.3.1)
     hike (1.2.3)
-    httpclient (2.5.2)
+    httpclient (2.8.3)
     i18n (0.7.0)
     instedd-rails (0.0.25)
       breadcrumbs_on_rails (>= 2.2.0)
@@ -161,7 +162,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.3.16)
+    mysql2 (0.3.21)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
@@ -304,7 +305,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   machinist
-  mysql2
+  mysql2 (~> 0.3.21)
   newrelic_rpm
   omniauth
   omniauth-google-oauth2
@@ -322,3 +323,6 @@ DEPENDENCIES
   test-unit
   timecop
   uglifier (>= 1.3.0)
+
+BUNDLED WITH
+   1.11.2
