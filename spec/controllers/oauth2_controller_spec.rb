@@ -43,6 +43,18 @@ describe Oauth2Controller do
         expect(auth_code.resource_id).to eq(client.id)
         expect(auth_code.scope).to eq("openid")
       end
+
+      it 'propagates client provided state' do
+        user.authorizations.create client: client, resource: client
+
+        get :authorize, client_id: client.identifier, response_type: :code, scope: 'openid', redirect_uri: client.redirect_uris.first, state: 'foobar'
+
+        expect(response.status).to eq(302)
+        redirect_uri = URI(response.location)
+        params = Rack::Utils.parse_query(redirect_uri.query)
+        expect(params).to include("state")
+        expect(params["state"]).to eq('foobar')
+      end
     end
   end
 end
