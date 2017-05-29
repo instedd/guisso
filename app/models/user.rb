@@ -31,11 +31,10 @@ class User < ActiveRecord::Base
     role == :admin
   end
 
-  def create_openid_token_for(app)
+  def create_openid_token_for(app, issuer = "login.instedd.org")
     # See http://openid.net/specs/openid-connect-core-1_0.html#IDToken
     payload = {
-      # TODO: set the issuer to the actual Guisso domain
-      iss: "login.instedd.org",
+      iss: issuer,
       sub: id.to_s,
       aud: app.identifier,
       email: email,
@@ -43,8 +42,8 @@ class User < ActiveRecord::Base
       iat: Time.now.to_i
     }
 
-    # TODO: sign the token
-    JWT.encode payload, nil, 'none'
+    # Sign the token using the client's secret
+    JWT.encode payload, app.secret, 'HS512'
   end
 
   private
