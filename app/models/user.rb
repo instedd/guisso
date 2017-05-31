@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
       sub: id.to_s,
       aud: app.identifier,
       email: email,
+      name: name,
       exp: 5.minutes.from_now.to_i,
       iat: Time.now.to_i
     }
