@@ -258,8 +258,8 @@ Devise.setup do |config|
 
   require 'openid/store/filesystem'
   config.omniauth :google_oauth2,
-    Guisso::Settings.google["client_id"],
-    Guisso::Settings.google["client_secret"],
+    Guisso::Settings.google_client_id,
+    Guisso::Settings.google_client_secret,
     name: :google,
     access_type: :online
 end
