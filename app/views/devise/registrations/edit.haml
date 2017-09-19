@@ -6,6 +6,8 @@
 = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
   / = devise_error_messages!
 
+  = f.input :name
+
   = f.input :password, :label => false, :hint => raw("<i>leave blank if you don't want to change it</i>"), :error => false do
     = f.input_field :password, placeholder: 'Password', :autocomplete => "off", class: "block password"
     = f.full_error :password
