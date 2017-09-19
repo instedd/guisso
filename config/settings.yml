@@ -7,3 +7,6 @@ whitelisted_hosts:
 google:
   client_id:
   client_secret:
+cookie:
+  name: guisso
+  domain: instedd.org

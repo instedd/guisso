@@ -37,5 +37,13 @@ module Guisso
     def self.google_client_secret
       ENV["GOOGLE_CLIENT_SECRET"] || Config["google"]["client_secret"]
     end
+
+    def self.cookie_name
+      ENV["COOKIE_NAME"] || Config["cookie"]["name"]
+    end
+
+    def self.cookie_domain
+      ENV["COOKIE_DOMAIN"] || Config["cookie"]["domain"]
+    end
   end
 end
