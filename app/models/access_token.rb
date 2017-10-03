@@ -19,6 +19,7 @@ class AccessToken < ActiveRecord::Base
       user: user.email,
       expires_at: expires_at,
       token_type: token_type,
+      scope: scope,
       resource: {
         name: resource.name,
         client_id: resource.identifier

@@ -39,7 +39,7 @@ class Oauth2::TokenEndpoint
           req.invalid_grant!
         end
 
-        access_token = token_type.create! client_id: app.id, resource_id: resource.id, user_id: user.id, expires_at: expires_at
+        access_token = token_type.create! client_id: app.id, resource_id: resource.id, user_id: user.id, expires_at: expires_at, scope: req.scope.sort.join(' ')
         res.access_token = access_token.to_token(:with_refresh_token)
       when :authorization_code
         code = AuthorizationCode.valid.find_by_token(req.code)
@@ -54,7 +54,7 @@ class Oauth2::TokenEndpoint
         req.invalid_grant! unless refresh_token
         access_token = refresh_token.access_token
         req.invalid_grant! unless access_token
-        new_access_token = access_token.class.create! client_id: access_token.client_id, resource_id: access_token.resource_id, user_id: access_token.user_id
+        new_access_token = access_token.class.create! client_id: access_token.client_id, resource_id: access_token.resource_id, user_id: access_token.user_id, scope: access_token.scope
         res.access_token = new_access_token.to_token
         res.access_token.refresh_token = refresh_token.token
       else

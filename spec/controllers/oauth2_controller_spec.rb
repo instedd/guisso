@@ -2,17 +2,24 @@ require 'rails_helper'
 
 describe Oauth2Controller do
   describe '#GET trusted token' do
-    describe 'telemetry' do
-      let!(:user) { User.make! }
-      let!(:resource) { Application.make! }
-      let!(:client) { Application.make! }
-      let!(:access_token) { BearerAccessToken.make! client: client, resource: resource, user: user }
+    let!(:user) { User.make! }
+    let!(:resource) { Application.make! }
+    let!(:client) { Application.make! }
+    let!(:access_token) { BearerAccessToken.make! client: client, resource: resource, user: user, scope: "foo=1" }
 
+    describe 'telemetry' do
       it 'reports tool usage when validating token' do
         expect(Telemetry::ToolUsage).to receive(:report).with(client, resource)
 
         get :trusted_token, identifier: resource.identifier, secret: resource.secret, token: access_token.token
       end
+    end
+
+    it 'contains the token scope' do
+      get :trusted_token, identifier: resource.identifier, secret: resource.secret, token: access_token.token
+      response_token = JSON.parse(response.body)
+
+      expect(response_token["scope"]).to eq("foo=1")
     end
   end
 
@@ -45,7 +52,7 @@ describe Oauth2Controller do
       end
 
       it 'propagates client provided state' do
-        user.authorizations.create client: client, resource: client
+        user.authorizations.create client: client, resource: client, scope: 'openid'
 
         get :authorize, client_id: client.identifier, response_type: :code, scope: 'openid', redirect_uri: client.redirect_uris.first, state: 'foobar'
 

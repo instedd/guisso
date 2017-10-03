@@ -28,6 +28,16 @@ describe "OAuth" do
         expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
       end
 
+      it "stores normalized scope in authorization and code" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo=1 bar=2"
+        post_form create_authorization_path, "approve"
+
+        code = AuthorizationCode.last
+        authorization = Authorization.last
+        expect(code.scope).to eq("app=#{resource_app.hostname} bar=2 foo=1")
+        expect(authorization.scope).to eq("app=#{resource_app.hostname} bar=2 foo=1")
+      end
+
       it "authorizes implicitly the second time" do
         get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
         post_form create_authorization_path, "approve"
@@ -35,6 +45,23 @@ describe "OAuth" do
         get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
         code = AuthorizationCode.last
         expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
+      end
+
+      it "authorizes implicitly the second time with scope elements in different order" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo=1"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "foo=1 app=#{resource_app.hostname}"
+        code = AuthorizationCode.last
+        expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
+      end
+
+      it "does not authorizes implicitly the second time with a different scope" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo=1"
+        expect(response).to be_successful # does not redirect
       end
 
       it "include state in callback url" do
@@ -47,7 +74,7 @@ describe "OAuth" do
     end
 
     describe "Client Flow" do
-      let(:code) { AuthorizationCode.make! user: user, client_id: client_app.id, resource_id: resource_app.id, redirect_uri: "http://myapp.com" }
+      let(:code) { AuthorizationCode.make! user: user, client_id: client_app.id, resource_id: resource_app.id, redirect_uri: "http://myapp.com", scope: 'foo=1' }
 
       it "create mac token (by default)" do
         post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret,
@@ -109,6 +136,15 @@ describe "OAuth" do
         expect(response_body["error"]).to eq("invalid_grant")
       end
 
+      it "generates token with same scope" do
+        post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret,
+                              redirect_uri: "http://myapp.com", grant_type: "authorization_code", code: code.token
+
+        response_token = JSON.parse(response.body)
+        token = AccessToken.find_by_token(response_token["access_token"])
+        expect(token.scope).to eq("foo=1")
+      end
+
       describe "refresh token" do
         it "uses refresh token with bearer" do
           post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, token_type: "bearer",
@@ -131,6 +167,8 @@ describe "OAuth" do
 
           expect(RefreshToken.count).to eq(1)
           expect(AccessToken.count).to eq(2)
+
+          expect(AccessToken.last.scope).to eq(AccessToken.first.scope)
         end
       end
     end
@@ -147,6 +185,16 @@ describe "OAuth" do
       response_token = JSON.parse(response.body)
       expect(response_token["token_type"]).to eq("mac")
       expect(response_token["expires_in"]).to be <= 15.minutes
+    end
+
+    it "creates token with specified scope" do
+      client_app.trusted = true
+      client_app.save!
+
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "client_credentials",
+                            scope: "user=#{user.email} app=#{resource_app.hostname} foo=1"
+
+      expect(AccessToken.last.scope).to eq("app=#{resource_app.hostname} foo=1 user=#{user.email}")
     end
 
     it "non trusted client should not get a token" do

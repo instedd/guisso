@@ -7,6 +7,6 @@ class AuthorizationCode < ActiveRecord::Base
   after_destroy :touch_user_lifespan
 
   def create_access_token(token_type)
-    expired! && user.access_tokens.create(client_id: client_id, resource_id: resource_id, type: token_type.to_s)
+    expired! && user.access_tokens.create(client_id: client_id, resource_id: resource_id, type: token_type.to_s, scope: scope)
   end
 end

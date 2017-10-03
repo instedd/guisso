@@ -49,6 +49,7 @@ class Oauth2Controller < ApplicationController
       res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uris)
 
       @scope = req.scope
+      @normalized_scope = req.scope.sort.join(' ')
       @state = req.state
       @response_type = req.response_type
 
@@ -68,10 +69,10 @@ class Oauth2Controller < ApplicationController
       end
 
       if approved?(allow_approval)
-        @authorization ||= current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id)
+        @authorization ||= current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id, scope: @normalized_scope)
         case req.response_type
         when :code
-          authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s, scope: req.scope.join(' '))
+          authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s, scope: @normalized_scope)
           res.code = authorization_code.token
         when :token
           token = current_user.access_tokens.create(client_id: @client.id, resource_id: @resource.id, type: "BearerAccessToken", expires_at: 1.hour.from_now)
@@ -90,7 +91,7 @@ class Oauth2Controller < ApplicationController
 
   def approved?(allow_approval)
     return true if allow_approval && params[:approve]
-    @authorization = current_user.authorizations.find_by(client: @client, resource: @resource)
+    @authorization = current_user.authorizations.find_by(client: @client, resource: @resource, scope: @normalized_scope)
     return @authorization != nil
   end
 
