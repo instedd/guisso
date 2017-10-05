@@ -2,11 +2,11 @@ version: '2.0'
 
 services:
   web:
-    command: rails server
     image: ruby:2.3
+    command: rails server -b 0.0.0.0 -p 80
     environment:
       RAILS_ENV:
-      DATABASE_HOST: 'db'
+      DATABASE_HOST: db
     working_dir: /app
     volumes:
       - .:/app
@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
     ports:
-      - 3001:3000
+      - 80
 
   db:
     image: mysql:5.6
