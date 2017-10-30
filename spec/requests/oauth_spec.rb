@@ -64,6 +64,17 @@ describe "OAuth" do
         expect(response).to be_successful # does not redirect
       end
 
+      it "can create two authorizations with different scope" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo=1"
+        post_form create_authorization_path, "approve"
+
+        expect(AuthorizationCode.count).to eq(2)
+        expect(Authorization.count).to eq(2)
+      end
+
       it "include state in callback url" do
         get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}", state: "foo"
         post_form create_authorization_path, "approve"
