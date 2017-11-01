@@ -1,6 +1,20 @@
-= link_to @client.name, "http://#{@client.hostname}"
-is requiring your approval to access your data in
-= link_to @resource.name, "http://#{@resource.hostname}"
+
+- if @client == @resource && @scope.include?("openid")
+  %p
+    = link_to @client.name, "http://#{@client.hostname}"
+    would like to:
+  %ul
+    %li View your email address
+    %li View basic information about your account
+  %p
+    = link_to @client.name, "http://#{@client.hostname}"
+    will use this information in accordance with its terms of service and privacy policy.
+  %br
+
+- else
+  = link_to @client.name, "http://#{@client.hostname}"
+  is requiring your approval to access your data in
+  = link_to @resource.name, "http://#{@resource.hostname}"
 
 %div
   %br
