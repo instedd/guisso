@@ -6,6 +6,10 @@ class Authorization < ActiveRecord::Base
   before_destroy :destroy_authorization_codes
   before_destroy :destroy_access_tokens
 
+  def is_openid?
+    client == resource && scope.split.include?("openid")
+  end
+
   private
 
   def destroy_authorization_codes
