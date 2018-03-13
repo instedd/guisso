@@ -49,7 +49,7 @@ class Oauth2Controller < ApplicationController
       res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uris)
 
       @scope = req.scope
-      @normalized_scope = req.scope.sort.join(' ')
+      @normalized_scope = Authorization.normalize_scope(req.scope).join(' ')
       @state = req.state
       @response_type = req.response_type
 
@@ -69,7 +69,13 @@ class Oauth2Controller < ApplicationController
       end
 
       if approved?(allow_approval)
-        @authorization ||= current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id, scope: @normalized_scope)
+        if @authorization
+          @authorization.add_scope(@normalized_scope)
+          @authorization.save!
+        else
+         @authorization = current_user.authorizations.create(client_id: @client.id, resource_id: @resource.id, scope: @normalized_scope)
+        end
+
         case req.response_type
         when :code
           authorization_code = current_user.authorization_codes.create(client_id: @client.id, resource_id: @resource.id, redirect_uri: res.redirect_uri.to_s, scope: @normalized_scope)
@@ -90,9 +96,9 @@ class Oauth2Controller < ApplicationController
   end
 
   def approved?(allow_approval)
+    @authorization = current_user.authorizations.find_by(client: @client, resource: @resource)
     return true if allow_approval && params[:approve]
-    @authorization = current_user.authorizations.find_by(client: @client, resource: @resource, scope: @normalized_scope)
-    return @authorization != nil
+    return @authorization != nil && @authorization.includes_scope?(@normalized_scope)
   end
 
   def denied?(allow_approval)

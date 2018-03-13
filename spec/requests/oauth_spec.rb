@@ -25,6 +25,7 @@ describe "OAuth" do
         expect(authorization.client_id).to eq(client_app.id)
         expect(authorization.resource_id).to eq(resource_app.id)
         expect(authorization.user_id).to eq(user.id)
+        expect(authorization.scope).to eq("all")
         expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
       end
 
@@ -34,8 +35,8 @@ describe "OAuth" do
 
         code = AuthorizationCode.last
         authorization = Authorization.last
-        expect(code.scope).to eq("app=#{resource_app.hostname} bar=2 foo=1")
-        expect(authorization.scope).to eq("app=#{resource_app.hostname} bar=2 foo=1")
+        expect(code.scope).to eq("bar=2 foo=1")
+        expect(authorization.scope).to eq("bar=2 foo=1")
       end
 
       it "authorizes implicitly the second time" do
@@ -56,23 +57,79 @@ describe "OAuth" do
         expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
       end
 
-      it "does not authorizes implicitly the second time with a different scope" do
+      it "authorizes implicitly the second time with all scope" do
         get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
         post_form create_authorization_path, "approve"
 
-        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo=1"
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "foo=1 app=#{resource_app.hostname}"
+        code = AuthorizationCode.last
+        expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
+      end
+
+      it "authorizes implicitly the second time with smaller scope" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo bar"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo"
+        code = AuthorizationCode.last
+        expect(response).to redirect_to("http://myapp.com?code=#{code.token}")
+      end
+
+      it "does not authorizes implicitly the second time with a different scope" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} bar"
         expect(response).to be_successful # does not redirect
       end
 
-      it "can create two authorizations with different scope" do
+      it "does not authorizes implicitly the second time with a larger scope" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo bar"
+        expect(response).to be_successful # does not redirect
+      end
+
+      it "does not authorizes implicitly the second time with largest scope" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
+        expect(response).to be_successful # does not redirect
+      end
+
+      it "accumulate scopes in authorization" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo"
+        post_form create_authorization_path, "approve"
+
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} bar"
+        post_form create_authorization_path, "approve"
+
+        authorization = Authorization.last
+        expect(authorization.scope).to eq("bar foo")
+      end
+
+      it "doesn't accumulate if existing authorization is 'all'" do
         get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
         post_form create_authorization_path, "approve"
 
-        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo=1"
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} bar"
+
+        authorization = Authorization.last
+        expect(authorization.scope).to eq("all")
+      end
+
+      it "saturates scope to 'all" do
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname} foo"
         post_form create_authorization_path, "approve"
 
-        expect(AuthorizationCode.count).to eq(2)
-        expect(Authorization.count).to eq(2)
+        get "/oauth2/authorize", client_id: client_app.identifier, redirect_uri: "http://myapp.com", response_type: "code", scope: "app=#{resource_app.hostname}"
+        post_form create_authorization_path, "approve"
+
+        authorization = Authorization.last
+        expect(authorization.scope).to eq("all")
+
       end
 
       it "include state in callback url" do

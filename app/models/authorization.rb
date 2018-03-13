@@ -10,6 +10,33 @@ class Authorization < ActiveRecord::Base
     client == resource && scope.split.include?("openid")
   end
 
+  def self.normalize_scope(scope)
+    scope
+      .reject { |s|
+        s.starts_with?("app=") ||
+        s.starts_with?("user=") ||
+        s.starts_with?("token_type=") ||
+        s.starts_with?("never_expires=")
+      }
+      .sort
+      .presence || ["all"]
+  end
+
+  def includes_scope?(test_scope)
+    return true if scope == "all"
+    scopes = scope.split
+    test_scope.split.all? { |s| scopes.include?(s) }
+  end
+
+  def add_scope(new_scopes)
+    return if scope == "all"
+    if new_scopes == "all"
+      self.scope = "all"
+    else
+      self.scope = (scope.split + new_scopes.split).uniq.sort.join(' ')
+    end
+  end
+
   private
 
   def destroy_authorization_codes

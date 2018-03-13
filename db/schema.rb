@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030145233) do
+ActiveRecord::Schema.define(version: 20180312191622) do
 
   create_table "access_tokens", force: true do |t|
     t.integer  "client_id"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20171030145233) do
     t.string  "scope"
   end
 
-  add_index "authorizations", ["user_id", "client_id", "resource_id", "scope"], name: "authorizations_by_user_client_resource_and_scope", unique: true, using: :btree
+  add_index "authorizations", ["user_id", "client_id", "resource_id"], name: "index_authorizations_on_user_id_and_client_id_and_resource_id", unique: true, using: :btree
 
   create_table "extra_passwords", force: true do |t|
     t.integer  "user_id"
