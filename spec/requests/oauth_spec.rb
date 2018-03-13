@@ -301,4 +301,42 @@ describe "OAuth" do
       expect(response).to redirect_to("http://myapp.com#access_token=#{token.token}&expires_in=3599&token_type=bearer")
     end
   end
+
+  describe "Exchange Token" do
+    it "exchange a bearer token" do
+      token = BearerAccessToken.make! client: client_app, resource: resource_app, user: user, scope: "all"
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "token_exchange",
+                            scope: "foo bar", access_token: token.token
+
+      expect(response).to be_successful
+      response_token = JSON.parse(response.body)
+      token = AccessToken.find_by_token!(response_token["access_token"])
+      expect(token.token_type).to eq("bearer")
+      expect(token.user_id).to eq(user.id)
+      expect(token.client_id).to eq(client_app.id)
+      expect(token.resource_id).to eq(resource_app.id)
+      expect(token.scope).to eq("bar foo")
+    end
+
+    it "cannot exchange access_token of another app" do
+      token = BearerAccessToken.make! client: resource_app, resource: resource_app, user: user, scope: "foo"
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "token_exchange",
+                            scope: "foo", access_token: token.token
+      expect(response).to have_http_status(400)
+    end
+
+    it "cannot exchange access_token with smaller scope" do
+      token = BearerAccessToken.make! client: client_app, resource: resource_app, user: user, scope: "foo"
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "token_exchange",
+                            scope: "all", access_token: token.token
+      expect(response).to have_http_status(400)
+    end
+
+    it "cannot exchange expired access_token" do
+      token = BearerAccessToken.make! client: client_app, resource: resource_app, user: user, scope: "all", expires_at: Time.now.utc
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "token_exchange",
+                            scope: "all", access_token: token.token
+      expect(response).to have_http_status(400)
+    end
+  end
 end
