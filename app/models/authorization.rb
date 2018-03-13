@@ -22,10 +22,14 @@ class Authorization < ActiveRecord::Base
       .presence || ["all"]
   end
 
-  def includes_scope?(test_scope)
+  def self.scope_included?(scope, test_scope)
     return true if scope == "all"
     scopes = scope.split
     test_scope.split.all? { |s| scopes.include?(s) }
+  end
+
+  def includes_scope?(test_scope)
+    Authorization.scope_included?(scope, test_scope)
   end
 
   def add_scope(new_scopes)
