@@ -43,7 +43,7 @@ RSpec.configure do |config|
 
   def post_form(action_url, submit_button)
     post_params = {}
-    assert_select "form[action=#{action_url}]" do |form|
+    assert_select "form[action=?]", action_url do |form|
       assert_select "input[type=hidden]" do |input|
         post_params = Hash[input.map {|i| [i.attributes["name"], i.attributes["value"]]}]
       end

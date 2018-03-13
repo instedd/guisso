@@ -6,7 +6,7 @@ describe "OpenID" do
     assert_select "meta[http-equiv=X-XRDS-Location]" do |meta|
       expect(meta.first["content"]).to eq("http://www.example.com/openid/user@email.com/xrds")
     end
-    assert_select "link[rel=openid.server]" do |link|
+    assert_select "link[rel='openid.server']" do |link|
       expect(link.first["href"]).to eq("http://www.example.com/openid/login")
     end
   end
