@@ -338,5 +338,13 @@ describe "OAuth" do
                             scope: "all", access_token: token.token
       expect(response).to have_http_status(400)
     end
+
+    it "uses normalized scope of the original token" do
+      token = BearerAccessToken.make! client: client_app, resource: resource_app, user: user, scope: "app=foo"
+      post "/oauth2/token", client_id: client_app.identifier, client_secret: client_app.secret, grant_type: "token_exchange",
+                            scope: "foo bar", access_token: token.token
+
+      expect(response).to be_successful
+    end
   end
 end

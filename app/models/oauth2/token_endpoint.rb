@@ -61,9 +61,10 @@ class Oauth2::TokenEndpoint
         res.access_token.refresh_token = refresh_token.token
       when :token_exchange
         existing_token = BearerAccessToken.valid.find_by_client_id_and_token(app.id, req.access_token) || req.invalid_grant!
+        existing_scope = Authorization.normalize_scope(existing_token.scope.split).join(' ')
         new_scope = Authorization.normalize_scope(req.scope).join(' ')
 
-        unless Authorization.scope_included?(existing_token.scope, new_scope)
+        unless Authorization.scope_included?(existing_scope, new_scope)
           req.invalid_grant!
         end
 
