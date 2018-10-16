@@ -20,7 +20,7 @@ class ExtraPassword < ActiveRecord::Base
       result = resource && resource.valid_for_authentication?(&block)
 
       if result
-        decorate(resource)
+        remember_me(resource)
         true
       else
         false
