@@ -257,9 +257,15 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
   require 'openid/store/filesystem'
-  config.omniauth :google_oauth2,
-    Guisso::Settings.google_client_id,
-    Guisso::Settings.google_client_secret,
-    name: :google,
-    access_type: :online
+
+  google_client_id = Guisso::Settings.google_client_id
+  google_client_secret = Guisso::Settings.google_client_secret
+
+  if google_client_id.present? && google_client_secret.present?
+    config.omniauth :google_oauth2,
+      google_client_id,
+      google_client_secret,
+      name: :google,
+      access_type: :online
+  end
 end
