@@ -5,7 +5,7 @@
   / = devise_error_messages!
 
   = f.input :email, :label => false, :error => false do
-    = f.input_field :email, placeholder: 'Email', class: 'block email'
+    = f.input_field :email, placeholder: 'Email', class: 'block email', pattern: false
     = f.full_error :email
 
   .control-group
