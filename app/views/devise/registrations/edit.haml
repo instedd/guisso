@@ -16,10 +16,6 @@
     = f.input_field :password_confirmation, placeholder: 'Password confirmation', class: "block password"
     = f.full_error :password_confirmation
 
-  = f.input :current_password, :label => false, :hint => raw("<i>we need your current password to confirm your changes</i>"), :error => false do
-    = f.input_field :current_password, placeholder: 'Current password', class: "block password"
-    = f.full_error :current_password
-
   .control-group
     .controls
       = f.submit "Update", class: 'btn'

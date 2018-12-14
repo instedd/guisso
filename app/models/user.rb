@@ -47,10 +47,22 @@ class User < ActiveRecord::Base
     JWT.encode payload, app.secret, 'HS512'
   end
 
+  # update code from devise 3.4.0 to avoid checking current_password
+  def update_with_password(params, *options)
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = update_attributes(params, *options)
+
+    clean_up_passwords
+    result
+  end
+  
   private
 
   def touch_lifespan
     Telemetry::Lifespan.touch_user(self)
   end
-
 end
