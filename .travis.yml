@@ -6,3 +6,10 @@ before_script:
   - bundle exec rake db:test:prepare
 script:
   - bundle exec rspec
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: "./travis-build.sh"
+  on:
+    all_branches: true
