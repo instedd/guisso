@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Set rake command
 RAKE_COMMAND="${RAKE_COMMAND:-rake}"
