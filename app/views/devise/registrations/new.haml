@@ -7,7 +7,7 @@
   = f.input :name
 
   = f.input :email, :label => false, :error => false do
-    = f.input_field :email, placeholder: 'Email', class: 'block email'
+    = f.input_field :email, placeholder: 'Email', class: 'block email', pattern: false
     = f.full_error :email
 
   = f.input :password, :label => false, :error => false do

@@ -20,7 +20,7 @@
   .fieldset
 
     = f.input :email, :label => false do
-      = f.input_field :email, placeholder: 'Email', class: 'block email'
+      = f.input_field :email, placeholder: 'Email', class: 'block email', pattern: false
 
     = f.input :password, :label => false do
       = f.input_field :password, placeholder: 'Password', class: 'block password'
