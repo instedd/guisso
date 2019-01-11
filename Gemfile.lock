@@ -156,6 +156,8 @@ GEM
       breadcrumbs_on_rails (>= 2.2.0)
       haml-rails
       rails (>= 3.0)
+    intercom-rails (0.4.0)
+      activesupport (> 3.0)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -332,6 +334,7 @@ DEPENDENCIES
   instedd-bootstrap!
   instedd-rails (>= 0.0.25)
   instedd_telemetry!
+  intercom-rails
   jbuilder (~> 1.2)
   jquery-rails (~> 3.1.3)
   machinist
