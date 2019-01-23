@@ -169,11 +169,25 @@ EOS
   def server
     if @server.nil?
       server_url = url_for :action => :login, :only_path => false
-      dir = Pathname.new(Rails.root).join('db').join('openid-store')
-      store = OpenID::Store::Filesystem.new(dir)
-      @server = Server.new(store, server_url)
+      create_openid_store
+      @server = Server.new(create_openid_store, server_url)
     end
     return @server
+  end
+
+  def create_openid_store
+    store_config = Guisso::Settings.openid_store
+    case store_config.scheme
+    when "file"
+      dir = Pathname.new(Rails.root).join(store_config.opaque || store_config.path)
+      store = OpenID::Store::Filesystem.new(dir)
+    when "memcache", "memcached"
+      memcache_address = store_config.select(:host, :port).compact.join(":")
+      memcache_client = Dalli::Client.new(memcache_address)
+      store = OpenID::Store::Memcache.new(memcache_client)
+    else
+      raise "Invalid OpenID store config: #{store_config}"
+    end
   end
 
   def url_for_user

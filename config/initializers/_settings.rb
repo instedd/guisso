@@ -45,5 +45,9 @@ module Guisso
     def self.cookie_domain
       ENV["COOKIE_DOMAIN"] || Config["cookie"]["domain"]
     end
+
+    def self.openid_store
+      URI(ENV["OPENID_STORE"] || Config["openid_store"] || "file:db/openid-store")
+    end
   end
 end

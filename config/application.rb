@@ -8,6 +8,7 @@ require "openid/consumer/discovery"
 require 'openid/extensions/sreg'
 require 'openid/extensions/pape'
 require 'openid/store/filesystem'
+require 'openid/store/memcache'
 
 
 # Require the gems listed in Gemfile, including any gems

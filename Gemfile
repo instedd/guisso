@@ -24,6 +24,7 @@ gem 'simple_form'
 gem 'env_rails'
 gem 'instedd_telemetry', git: 'https://github.com/instedd/telemetry_rails.git'
 gem 'intercom-rails'
+gem 'dalli'
 
 group :doc do
   gem 'sdoc', require: false
