@@ -1,4 +1,6 @@
 language: ruby
+services:
+  - mysql
 cache: bundler
 bundler_args: --jobs=8 --without development production
 before_script:
@@ -10,6 +12,6 @@ script:
 deploy:
   skip_cleanup: true
   provider: script
-  script: "./travis-build.sh"
+  script: './travis-build.sh'
   on:
     all_branches: true
