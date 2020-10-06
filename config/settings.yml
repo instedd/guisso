@@ -11,3 +11,6 @@ cookie:
   name: guisso
   domain: instedd.org
 openid_store: file:db/openid-store
+recaptcha:
+  site_key:
+  secret_key:

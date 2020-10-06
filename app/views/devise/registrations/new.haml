@@ -18,6 +18,8 @@
     = f.input_field :password_confirmation, placeholder: 'Password confirmation', class: 'block password'
     = f.full_error :password_confirmation
 
+  = render 'recaptcha/in_form'
+
   .control-group
     .controls
       = f.submit "Sign up", class: 'btn'

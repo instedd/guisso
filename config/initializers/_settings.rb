@@ -49,5 +49,17 @@ module Guisso
     def self.openid_store
       URI(ENV["OPENID_STORE"] || Config["openid_store"] || "file:db/openid-store")
     end
+
+    def self.recaptcha_site_key
+      ENV['RECAPTCHA_SITE_KEY'] || Config['recaptcha']['site_key']
+    end
+
+    def self.recaptcha_secret_key
+      ENV['RECAPTCHA_SECRET_KEY'] || Config['recaptcha']['secret_key']
+    end
+
+    def self.recaptcha?
+      recaptcha_site_key.present? && recaptcha_secret_key.present?
+    end
   end
 end

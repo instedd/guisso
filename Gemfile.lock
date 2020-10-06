@@ -254,6 +254,8 @@ GEM
     rake (12.3.2)
     rdoc (4.1.2)
       json (~> 1.4)
+    recaptcha (5.5.0)
+      json
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -350,6 +352,7 @@ DEPENDENCIES
   rack-oauth2!
   rails (~> 4.2.0)
   rails-dev-tweaks (~> 1.1)
+  recaptcha
   rspec-rails
   ruby-openid
   sass-rails (~> 4.0.0)
