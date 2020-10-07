@@ -1,5 +1,5 @@
 - if Guisso::Settings.recaptcha?
   .control-group{ class: flash[:recaptcha_error].present? ? "error" : "" }
-    = recaptcha_tags #(class: 'control-group')
+    = recaptcha_tags
     %span.help-inline
       = flash[:recaptcha_error]
