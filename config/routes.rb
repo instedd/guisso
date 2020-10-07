@@ -4,6 +4,7 @@ Guisso::Application.routes.draw do
     omniauth_callbacks: 'omniauth_callbacks',
     sessions: 'sessions',
     registrations: 'registrations',
+    confirmations: 'confirmations',
     passwords: 'passwords'
   }
 

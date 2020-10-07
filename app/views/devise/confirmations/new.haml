@@ -8,6 +8,8 @@
     = f.input_field :email, placeholder: 'Email', class: 'block email', pattern: false
     = f.full_error :email
 
+  = render 'recaptcha/in_form'
+
   .control-group
     .controls
       = f.submit "Resend confirmation instructions", class: 'btn'

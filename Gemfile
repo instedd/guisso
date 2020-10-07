@@ -25,6 +25,7 @@ gem 'env_rails'
 gem 'instedd_telemetry', git: 'https://github.com/instedd/telemetry_rails.git'
 gem 'intercom-rails'
 gem 'dalli'
+gem 'recaptcha'
 
 group :doc do
   gem 'sdoc', require: false
