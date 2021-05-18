@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'puma', '~> 3.0.2'
+gem 'puma', '~> 4.3.8'
 gem 'rails', '~> 4.2.0'
 gem 'mysql2', '~> 0.5.2'
 gem 'pg', '~> 0.11'
