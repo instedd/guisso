@@ -1,6 +1,6 @@
 # GUISSO
 
-[![Build Status](https://travis-ci.org/instedd/guisso.svg?branch=master)](https://travis-ci.org/instedd/guisso)
+[![Build Status](https://github.com/instedd/guisso/actions/workflows/ci.yml/badge.svg)](https://github.com/instedd/guisso/actions/workflows/ci.yml)
 
 GUISSO (GUISSO Unveils InSTEDD Single Sign On) is an OpenID and OAuth server for the [InSTEDD](http://instedd.org) platform of applications. It is currently in use in [Hub](https://github.com/instedd/hub), [mBuilder](github.com/instedd/mbuilder), [ResourceMap](https://github.com/instedd/resourcemap), [Verboice](https://github.com/instedd/verboice) and [RemindEm](https://github.com/instedd/remindem), among others.
 
