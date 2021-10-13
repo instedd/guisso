@@ -1,12 +1,18 @@
-FROM ruby:2.3-alpine as build
+FROM ruby:2.3 as build
+
+# Cleanup expired Let's Encrypt CA (Sept 30, 2021)
+RUN sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf && update-ca-certificates -f
 
 # Install gem bundle
 ADD Gemfile /app/
 ADD Gemfile.lock /app/
 WORKDIR /app
 
-# Install required packages
-RUN apk add --no-cache build-base nodejs git mysql-dev postgresql-dev tzdata
+RUN \
+  apt-get update \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install gems
 RUN bundle install --jobs 10 --without development test
@@ -17,15 +23,15 @@ ADD . /app
 # Precompile assets
 RUN bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=secret
 
-FROM ruby:2.3-alpine
+FROM ruby:2.3
+
+# Cleanup expired Let's Encrypt CA (Sept 30, 2021)
+RUN sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf && update-ca-certificates -f
 
 # Install gem bundle
 ADD Gemfile /app/
 ADD Gemfile.lock /app/
 WORKDIR /app
-
-# Install required packages
-RUN apk add --no-cache tzdata libpq mariadb-connector-c
 
 # Install the application
 ADD . /app
