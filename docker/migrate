@@ -7,7 +7,7 @@ RAKE_COMMAND="${RAKE_COMMAND:-rake}"
 $RAKE_COMMAND db:create;
 
 # Schema load and seed if first run, migrate otherwise
-if [ `$RAKE_COMMAND db:version | cut -f2 -d ':'` == 0 ];
+if [ `$RAKE_COMMAND db:version | cut -f2 -d ':'` = 0 ];
   then $RAKE_COMMAND db:schema:load db:seed;
   else $RAKE_COMMAND db:migrate;
 fi;
