@@ -71,10 +71,9 @@ This practice is also recommended when running GUISSO locally.
 Run the following commands to have a stable development environment.
 
 ```
-$ docker-compose run --rm --no-deps web bundle install
-$ docker-compose run --rm web bash
-root@web_1 $ rake db:setup db:seed
-$ docker-compose up
+$ docker compose run --rm --no-deps web bundle install
+$ docker compose run --rm web rake db:setup db:seed
+$ docker compose up
 ```
 
 ## Intercom
