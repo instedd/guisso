@@ -3,6 +3,10 @@ FROM ruby:2.3 as build
 # Cleanup expired Let's Encrypt CA (Sept 30, 2021)
 RUN sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf && update-ca-certificates -f
 
+# Debian Stretch was archived
+RUN echo 'deb http://archive.debian.org/debian stretch main\n\
+  deb http://archive.debian.org/debian-security stretch/updates main' > /etc/apt/sources.list
+
 # Install gem bundle
 ADD Gemfile /app/
 ADD Gemfile.lock /app/
@@ -27,6 +31,10 @@ FROM ruby:2.3
 
 # Cleanup expired Let's Encrypt CA (Sept 30, 2021)
 RUN sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf && update-ca-certificates -f
+
+# Debian Stretch was archived
+RUN echo 'deb http://archive.debian.org/debian stretch main\n\
+  deb http://archive.debian.org/debian-security stretch/updates main' > /etc/apt/sources.list
 
 # Install gem bundle
 ADD Gemfile /app/
