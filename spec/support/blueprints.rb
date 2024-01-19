@@ -10,12 +10,12 @@ end
 
 User.blueprint do
   email { Faker::Internet.email }
-  password { SecureRandom.alphanumeric(10) }
+  password { SecureRandom.base64(17) }
   confirmed_at { 2.days.ago }
 end
 
 ExtraPassword.blueprint do
-  password { SecureRandom.alphanumeric(10) }
+  password { SecureRandom.base64(17) }
 end
 
 AuthorizationCode.blueprint do
